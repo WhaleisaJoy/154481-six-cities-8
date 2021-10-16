@@ -1,13 +1,13 @@
-import { PlaceCardDataType } from '../../types/types';
+import { OffersType } from '../../types/types';
 
 type PlaceCardType = {
-  item: PlaceCardDataType,
+  offer: OffersType,
 };
 
 const MAX_RATING = 5;
 
-function PlaceCard({item}: PlaceCardType): JSX.Element {
-  const { isPremium, isFavorite, previewImage, price, rating, title, type } = item;
+function PlaceCard({offer}: PlaceCardType): JSX.Element {
+  const { isPremium, isFavorite, previewImage, price, rating, title, type } = offer;
 
   const premiumElement = isPremium ? (<div className="place-card__mark"><span>Premium</span></div>) : '';
   const bookmarkButtonClass = isFavorite ? 'place-card__bookmark-button place-card__bookmark-button--active button' : 'place-card__bookmark-button button';

@@ -1,13 +1,14 @@
 import PlaceCard from '../../place-card/place-card';
 import PageHeader from '../../page-header/page-header';
-import { PLACE_CARD_DATA } from '../../../mock/place-card';
+import { OffersType } from '../../../types/types';
 
 type MainProps = {
   placeCardCount: number;
+  offers: OffersType[];
 }
 
-function Main({placeCardCount}: MainProps):JSX.Element {
-  const placeCards = PLACE_CARD_DATA.map((item) => <PlaceCard item={item} key={item.id} />);
+function Main({placeCardCount, offers}: MainProps):JSX.Element {
+  const placeCards = offers.map((offer) => <PlaceCard offer={offer} key={offer.id} />);
 
   return (
     <div className="page page--gray page--main">
