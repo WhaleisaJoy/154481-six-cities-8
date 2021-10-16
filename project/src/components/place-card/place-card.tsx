@@ -4,12 +4,13 @@ type PlaceCardType = {
   item: PlaceCardDataType,
 };
 
+const MAX_RATING = 5;
+
 function PlaceCard({item}: PlaceCardType): JSX.Element {
   const { isPremium, isFavorite, previewImage, price, rating, title, type } = item;
 
   const premiumElement = isPremium ? (<div className="place-card__mark"><span>Premium</span></div>) : '';
   const bookmarkButtonClass = isFavorite ? 'place-card__bookmark-button place-card__bookmark-button--active button' : 'place-card__bookmark-button button';
-  const MAX_RATING = 5;
   const ratingPercentage = rating / MAX_RATING * 100;
 
   return (
