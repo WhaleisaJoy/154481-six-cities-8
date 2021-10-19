@@ -1,6 +1,7 @@
-import PlaceCard from '../../place-card/place-card';
+import { useState } from 'react';
 import PageHeader from '../../page-header/page-header';
-import { OffersType } from '../../../types/types';
+import { OffersType, ActivePlaceCardType } from '../../../types/types';
+import PlacesList from '../../places-list/places-list';
 
 type MainProps = {
   placeCardCount: number;
@@ -8,7 +9,11 @@ type MainProps = {
 }
 
 function Main({placeCardCount, offers}: MainProps):JSX.Element {
-  const placeCards = offers.map((offer) => <PlaceCard offer={offer} key={offer.id} />);
+  const [activePlaceCard, setActivePlaceCard] = useState('');
+
+  function handleActivePlaceCardMouseEnter (card: ActivePlaceCardType) {
+    setActivePlaceCard(card);
+  }
 
   return (
     <div className="page page--gray page--main">
@@ -72,15 +77,11 @@ function Main({placeCardCount, offers}: MainProps):JSX.Element {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
 
-                {
-                  placeCards
-                }
+              <PlacesList offers={offers} onActivePlaceCardMouseEnter={handleActivePlaceCardMouseEnter} />
 
-              </div>
             </section>
-            <div className="cities__right-section">
+            <div className="cities__right-section" data-active-card={activePlaceCard}>
               <section className="cities__map map"></section>
             </div>
           </div>

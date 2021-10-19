@@ -1,6 +1,6 @@
 import { OffersType } from '../types/types';
 
-export const OFFERS_DATA: OffersType[] = [
+export const offersData: OffersType[] = [
   {
     bedrooms: 3,
     city: {
@@ -19,7 +19,7 @@ export const OFFERS_DATA: OffersType[] = [
       isPro: true,
       name: 'Angelina',
     },
-    id: 0,
+    id: '0',
     images: ['img/1.png', 'img/2.png'],
     isFavorite: false,
     isPremium: true,
@@ -54,7 +54,7 @@ export const OFFERS_DATA: OffersType[] = [
       isPro: false,
       name: 'Angelina',
     },
-    id: 1,
+    id: '1',
     images: ['img/1.png', 'img/2.png'],
     isFavorite: true,
     isPremium: false,
@@ -89,7 +89,7 @@ export const OFFERS_DATA: OffersType[] = [
       isPro: false,
       name: 'Angelina',
     },
-    id: 2,
+    id: '2',
     images: ['img/1.png', 'img/2.png'],
     isFavorite: false,
     isPremium: false,
@@ -124,7 +124,7 @@ export const OFFERS_DATA: OffersType[] = [
       isPro: false,
       name: 'Angelina',
     },
-    id: 3,
+    id: '3',
     images: ['img/1.png', 'img/2.png'],
     isFavorite: false,
     isPremium: true,
@@ -159,7 +159,7 @@ export const OFFERS_DATA: OffersType[] = [
       isPro: false,
       name: 'Angelina',
     },
-    id: 4,
+    id: '4',
     images: ['img/1.png', 'img/2.png'],
     isFavorite: true,
     isPremium: false,

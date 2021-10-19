@@ -16,7 +16,7 @@ export type OffersType = {
       isPro: boolean,
       name: string,
     },
-    id: number,
+    id: string,
     images: string[],
     isFavorite: boolean,
     isPremium: boolean,
@@ -32,3 +32,12 @@ export type OffersType = {
     title: string,
     type: string,
 };
+
+export type ActivePlaceCardType = string;
+
+// export type FavoritesLocationOffersType = {
+//   key: string,
+//   value: OffersType,
+// }
+
+export type FavoritesLocationOffersType = [string, OffersType[]];
