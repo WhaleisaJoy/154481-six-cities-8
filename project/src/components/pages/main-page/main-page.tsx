@@ -9,7 +9,7 @@ type MainProps = {
 }
 
 function Main({placeCardCount, offers}: MainProps):JSX.Element {
-  const [activePlaceCard, setActivePlaceCard] = useState('');
+  const [activePlaceCard, setActivePlaceCard] = useState<ActivePlaceCardType>('');
 
   function handleActivePlaceCardMouseEnter (card: ActivePlaceCardType) {
     setActivePlaceCard(card);
