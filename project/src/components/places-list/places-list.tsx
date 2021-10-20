@@ -7,11 +7,11 @@ type PlaceListType = {
 }
 
 function PlacesList({offers, onActivePlaceCardMouseEnter}: PlaceListType): JSX.Element {
-  const placeCards = offers.map((offer) => <PlaceCard offer={offer} key={offer.id} onActivePlaceCardMouseEnter={onActivePlaceCardMouseEnter} />);
-
   return (
     <div className="cities__places-list places__list tabs__content">
-      { placeCards }
+      {
+        offers.map((offer) => <PlaceCard offer={offer} key={offer.id} onActivePlaceCardMouseEnter={onActivePlaceCardMouseEnter} />)
+      }
     </div>
   );
 }
