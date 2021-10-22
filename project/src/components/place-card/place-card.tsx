@@ -1,11 +1,11 @@
 import {Link} from 'react-router-dom';
 import { MouseEvent } from 'react';
 import { AppRoute, MAX_RATING } from '../../const';
-import { OffersType } from '../../types/types';
+import { ActivePlaceCardType, OffersType } from '../../types/types';
 
 type PlaceCardType = {
   offer: OffersType,
-  onActivePlaceCardMouseEnter: (arg0: string) => void,
+  onActivePlaceCardMouseEnter: (card: ActivePlaceCardType) => void,
 };
 
 function PlaceCard({offer, onActivePlaceCardMouseEnter}: PlaceCardType): JSX.Element {

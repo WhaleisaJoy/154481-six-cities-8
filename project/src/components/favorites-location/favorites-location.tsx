@@ -1,27 +1,28 @@
-import { FavoritesLocationOffersType } from '../../types/types';
+import { OffersType } from '../../types/types';
 import FavoritesCard from '../favorites-card/favorites-card';
 
 type FavoritesLocationType = {
-  offer: FavoritesLocationOffersType;
+  city: string;
+  offers: OffersType[];
 }
 
-function FavoritesLocation({offer}: FavoritesLocationType):JSX.Element {
-  const [title, offers] = offer;
-
-  const favoritesPlacesCards = offers.map((offerItem) => <FavoritesCard offer={offerItem} key={offerItem.id} />);
+function FavoritesLocation({city, offers}: FavoritesLocationType):JSX.Element {
+  const offersByCity = offers.filter((offer) => offer.city.name === city);
 
   return (
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
         <div className="locations__item">
           <a className="locations__item-link" href="/">
-            <span>{title}</span>
+            <span>{city}</span>
           </a>
         </div>
       </div>
 
       <div className="favorites__places">
-        {favoritesPlacesCards}
+        {
+          offersByCity.map((offer) => <FavoritesCard offer={offer} key={offer.id} />)
+        }
       </div>
     </li>
   );

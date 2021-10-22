@@ -1,6 +1,6 @@
 import { useState, ChangeEvent } from 'react';
 import ReviewsRating from '../reviews-rating/reviews-rating';
-import { RatingSettings } from './settings';
+import { RatingSettings } from '../../database';
 
 function ReviewsForm(): JSX.Element {
   const [form, setForm] = useState({

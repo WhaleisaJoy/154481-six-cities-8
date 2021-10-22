@@ -9,16 +9,8 @@ type FavoritesType = {
 function Favorites({offers}: FavoritesType): JSX.Element {
   const favoritesOffers = offers.filter((offer) => offer.isFavorite);
 
-  const favoritesOffersMap = new Map();
-  favoritesOffers.forEach((offer) => {
-    if (favoritesOffersMap.has(offer.city.name)) {
-      favoritesOffersMap.get(offer.city.name).push(offer);
-    } else {
-      favoritesOffersMap.set(offer.city.name, [offer]);
-    }
-  });
-
-  const favoritesLocations = [...favoritesOffersMap.entries()].map((offer) => <FavoritesLocation offer={offer} key={0} />);
+  const cityNames = favoritesOffers.map((offer) => offer.city.name);
+  const cityNamesUnique = new Set(cityNames);
 
   return (
     <div className="page">
@@ -29,7 +21,9 @@ function Favorites({offers}: FavoritesType): JSX.Element {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              {favoritesLocations}
+              {
+                Array.from(cityNamesUnique).map((city) => <FavoritesLocation city={city} offers={favoritesOffers} key={city} />)
+              }
             </ul>
           </section>
         </div>

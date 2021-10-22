@@ -1,4 +1,4 @@
-import { RatingSettingsType } from '../../types/types';
+import { RatingSettingsType } from './types/types';
 
 export const RatingSettings: RatingSettingsType[] = [
   {
