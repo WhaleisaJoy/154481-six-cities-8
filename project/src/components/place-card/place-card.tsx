@@ -1,25 +1,33 @@
-import { PlaceCardDataType } from '../../types/types';
+import {Link} from 'react-router-dom';
+import { MouseEvent } from 'react';
+import { AppRoute, MAX_RATING } from '../../const';
+import { ActivePlaceCardType, OffersType } from '../../types/types';
 
 type PlaceCardType = {
-  item: PlaceCardDataType,
+  offer: OffersType,
+  onActivePlaceCardMouseEnter: (card: ActivePlaceCardType) => void,
 };
 
-function PlaceCard({item}: PlaceCardType): JSX.Element {
-  const { isPremium, isFavorite, previewImage, price, rating, title, type } = item;
+function PlaceCard({offer, onActivePlaceCardMouseEnter}: PlaceCardType): JSX.Element {
+  const { isPremium, isFavorite, previewImage, price, rating, title, type, id } = offer;
 
-  const premiumElement = isPremium ? (<div className="place-card__mark"><span>Premium</span></div>) : '';
+  const premiumElement = isPremium && (<div className="place-card__mark"><span>Premium</span></div>);
   const bookmarkButtonClass = isFavorite ? 'place-card__bookmark-button place-card__bookmark-button--active button' : 'place-card__bookmark-button button';
-  const MAX_RATING = 5;
   const ratingPercentage = rating / MAX_RATING * 100;
 
   return (
-    <article className="cities__place-card place-card">
+    <article
+      className="cities__place-card place-card"
+      onMouseEnter={ ({currentTarget}: MouseEvent<HTMLElement>) => {
+        onActivePlaceCardMouseEnter(id);
+      }}
+    >
       {premiumElement}
 
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="/">
-          <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image" />
-        </a>
+        <Link to={`${AppRoute.Room}${id}`}>
+          <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image" id={id.toString()} />
+        </Link>
       </div>
 
       <div className="place-card__info">
@@ -42,7 +50,7 @@ function PlaceCard({item}: PlaceCardType): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="/">{title}</a>
+          <Link to={`${AppRoute.Room}${id}`}>{title}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>

@@ -6,17 +6,19 @@ import Property from '../pages/property-page/property-page';
 import NotFoundPage from '../pages/not-found-page/not-found-page';
 import PrivateRoute from '../private-route/private-route';
 import { AppRoute, AuthorizationStatus } from '../../const';
+import { OffersType } from '../../types/types';
 
 type AppProps = {
   placeCardCount: number;
+  offers: OffersType[];
 }
 
-function App({placeCardCount}: AppProps): JSX.Element {
+function App({placeCardCount, offers}: AppProps): JSX.Element {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={[AppRoute.Root, AppRoute.Main]}>
-          <Main placeCardCount={placeCardCount} />
+          <Main placeCardCount={placeCardCount} offers={offers} />
         </Route>
         <Route exact path={AppRoute.Login}>
           <Login />
@@ -25,9 +27,9 @@ function App({placeCardCount}: AppProps): JSX.Element {
           exact
           path={AppRoute.Favorites}
           render={() => (
-            <Favorites />
+            <Favorites offers={offers} />
           )}
-          authorizationStatus={AuthorizationStatus.NoAuth}
+          authorizationStatus={AuthorizationStatus.Auth}
         >
         </PrivateRoute>
         <Route exact path={AppRoute.Room}>

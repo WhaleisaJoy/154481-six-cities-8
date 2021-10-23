@@ -16,8 +16,7 @@ function PageHeader({isNav = true}: PageHeaderType): JSX.Element {
           </div>
 
           {
-            isNav
-              ?
+            isNav &&
               <nav className="header__nav">
                 <ul className="header__nav-list">
                   <li className="header__nav-item user">
@@ -29,7 +28,6 @@ function PageHeader({isNav = true}: PageHeaderType): JSX.Element {
                   </li>
                 </ul>
               </nav>
-              : ''
           }
         </div>
       </div>

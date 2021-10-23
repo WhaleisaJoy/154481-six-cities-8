@@ -1,13 +1,19 @@
-import PlaceCard from '../../place-card/place-card';
+import { useState } from 'react';
 import PageHeader from '../../page-header/page-header';
-import { PLACE_CARD_DATA } from '../../../mock/place-card';
+import { OffersType, ActivePlaceCardType } from '../../../types/types';
+import PlacesList from '../../places-list/places-list';
 
 type MainProps = {
   placeCardCount: number;
+  offers: OffersType[];
 }
 
-function Main({placeCardCount}: MainProps):JSX.Element {
-  const placeCards = PLACE_CARD_DATA.map((item) => <PlaceCard item={item} key={item.id} />);
+function Main({placeCardCount, offers}: MainProps):JSX.Element {
+  const [activePlaceCard, setActivePlaceCard] = useState<ActivePlaceCardType>('');
+
+  function handleActivePlaceCardMouseEnter (card: ActivePlaceCardType) {
+    setActivePlaceCard(card);
+  }
 
   return (
     <div className="page page--gray page--main">
@@ -71,15 +77,11 @@ function Main({placeCardCount}: MainProps):JSX.Element {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
 
-                {
-                  placeCards
-                }
+              <PlacesList offers={offers} onActivePlaceCardMouseEnter={handleActivePlaceCardMouseEnter} />
 
-              </div>
             </section>
-            <div className="cities__right-section">
+            <div className="cities__right-section" data-active-card={activePlaceCard}>
               <section className="cities__map map"></section>
             </div>
           </div>
