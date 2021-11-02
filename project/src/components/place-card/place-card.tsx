@@ -1,11 +1,11 @@
 import {Link} from 'react-router-dom';
 import { MouseEvent } from 'react';
-import { AppRoute, MAX_RATING } from '../../const';
-import { ActivePlaceCardType, OffersType } from '../../types/types';
+import { MAX_RATING } from '../../const';
+import { OffersType } from '../../types/types';
 
 type PlaceCardType = {
   offer: OffersType,
-  onActivePlaceCardMouseEnter: (card: ActivePlaceCardType) => void,
+  onActivePlaceCardMouseEnter: (card: string) => void,
 };
 
 function PlaceCard({offer, onActivePlaceCardMouseEnter}: PlaceCardType): JSX.Element {
@@ -25,7 +25,7 @@ function PlaceCard({offer, onActivePlaceCardMouseEnter}: PlaceCardType): JSX.Ele
       {premiumElement}
 
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <Link to={`${AppRoute.Room}${id}`}>
+        <Link to={`/offer/${id}`}>
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image" id={id.toString()} />
         </Link>
       </div>
@@ -50,7 +50,7 @@ function PlaceCard({offer, onActivePlaceCardMouseEnter}: PlaceCardType): JSX.Ele
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`${AppRoute.Room}${id}`}>{title}</Link>
+          <Link to={`/offer/${id}`}>{title}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>

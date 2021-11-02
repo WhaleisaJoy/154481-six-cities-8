@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import PageHeader from '../../page-header/page-header';
-import { OffersType, ActivePlaceCardType } from '../../../types/types';
+import { OffersType } from '../../../types/types';
 import PlacesList from '../../places-list/places-list';
+import Map from '../../map/map';
 
 type MainProps = {
   placeCardCount: number;
@@ -9,9 +10,9 @@ type MainProps = {
 }
 
 function Main({placeCardCount, offers}: MainProps):JSX.Element {
-  const [activePlaceCard, setActivePlaceCard] = useState<ActivePlaceCardType>('');
+  const [activePlaceCard, setActivePlaceCard] = useState<string>('');
 
-  function handleActivePlaceCardMouseEnter (card: ActivePlaceCardType) {
+  function handleActivePlaceCardMouseEnter (card: string) {
     setActivePlaceCard(card);
   }
 
@@ -82,7 +83,7 @@ function Main({placeCardCount, offers}: MainProps):JSX.Element {
 
             </section>
             <div className="cities__right-section" data-active-card={activePlaceCard}>
-              <section className="cities__map map"></section>
+              <Map offers={offers} activePlaceCard={activePlaceCard} />
             </div>
           </div>
         </div>

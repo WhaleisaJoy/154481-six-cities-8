@@ -33,10 +33,7 @@ export type OffersType = {
     type: string,
 };
 
-export type ActivePlaceCardType = string;
-
 export type FavoritesLocationOffersType = [string, OffersType[]];
-
 
 export type RatingSettingsType = {
   value: string,
