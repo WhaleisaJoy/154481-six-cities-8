@@ -6,15 +6,16 @@ import { OffersType } from '../../types/types';
 import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
 
 type MapProps = {
-  activePlaceCard: string;
+  activePlaceCard: number | null;
   offers: OffersType[];
+  height: number;
 }
 
-function Map({activePlaceCard, offers}: MapProps): JSX.Element {
-  const firstOffer = offers[0];
+function Map({activePlaceCard, offers, height}: MapProps): JSX.Element {
+  const currentCity = offers[0].city;
 
   const mapRef = useRef(null);
-  const map = useMap(mapRef, firstOffer);
+  const map = useMap(mapRef, currentCity);
 
   const defaultMarker = L.icon({
     iconUrl: URL_MARKER_DEFAULT,
@@ -52,7 +53,7 @@ function Map({activePlaceCard, offers}: MapProps): JSX.Element {
   return (
     <section
       className="cities__map map"
-      style={{height: '752px'}}
+      style={{height: `${height}px`}}
       ref={mapRef}
     >
     </section>
