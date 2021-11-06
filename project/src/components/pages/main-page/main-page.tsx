@@ -3,6 +3,7 @@ import PageHeader from '../../page-header/page-header';
 import { OffersType } from '../../../types/types';
 import PlacesList from '../../places-list/places-list';
 import Map from '../../map/map';
+import { cardType, MAP_HEIGHT_MAIN_PAGE } from '../../../const';
 
 type MainProps = {
   placeCardCount: number;
@@ -10,9 +11,9 @@ type MainProps = {
 }
 
 function Main({placeCardCount, offers}: MainProps):JSX.Element {
-  const [activePlaceCard, setActivePlaceCard] = useState<string>('');
+  const [activePlaceCard, setActivePlaceCard] = useState<number | null>(null);
 
-  function handleActivePlaceCardMouseEnter (card: string) {
+  function handleActivePlaceCardMouseEnter (card: number) {
     setActivePlaceCard(card);
   }
 
@@ -79,11 +80,13 @@ function Main({placeCardCount, offers}: MainProps):JSX.Element {
                 </ul>
               </form>
 
-              <PlacesList offers={offers} onActivePlaceCardMouseEnter={handleActivePlaceCardMouseEnter} />
+              <div className="cities__places-list places__list tabs__content">
+                <PlacesList offers={offers} currentCardType={cardType.CITIES} onActivePlaceCardMouseEnter={handleActivePlaceCardMouseEnter} />
+              </div>
 
             </section>
             <div className="cities__right-section" data-active-card={activePlaceCard}>
-              <Map offers={offers} activePlaceCard={activePlaceCard} />
+              <Map offers={offers} activePlaceCard={activePlaceCard} height={MAP_HEIGHT_MAIN_PAGE} />
             </div>
           </div>
         </div>

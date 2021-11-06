@@ -1,30 +1,45 @@
 import {Link} from 'react-router-dom';
-import { MouseEvent } from 'react';
-import { MAX_RATING } from '../../const';
+import { cardType, MAX_RATING } from '../../const';
 import { OffersType } from '../../types/types';
+import classNames from 'classnames';
 
 type PlaceCardType = {
-  offer: OffersType,
-  onActivePlaceCardMouseEnter: (card: string) => void,
+  offer: OffersType;
+  currentCardType: string;
+  onActivePlaceCardMouseEnter?: (card: number) => void;
 };
 
-function PlaceCard({offer, onActivePlaceCardMouseEnter}: PlaceCardType): JSX.Element {
+function PlaceCard({offer, currentCardType, onActivePlaceCardMouseEnter}: PlaceCardType): JSX.Element {
   const { isPremium, isFavorite, previewImage, price, rating, title, type, id } = offer;
 
   const premiumElement = isPremium && (<div className="place-card__mark"><span>Premium</span></div>);
   const bookmarkButtonClass = isFavorite ? 'place-card__bookmark-button place-card__bookmark-button--active button' : 'place-card__bookmark-button button';
   const ratingPercentage = rating / MAX_RATING * 100;
 
+  const articleClassName = classNames({
+    'place-card': true,
+    'cities__place-card': currentCardType === cardType.CITIES,
+    'near-places__card': currentCardType === cardType.NEAR_PLACES,
+  });
+
+  const imageWrapperClassName = classNames({
+    'place-card__image-wrapper': true,
+    'cities__image-wrapper': currentCardType === cardType.CITIES,
+    'near-places__image-wrapper': currentCardType === cardType.NEAR_PLACES,
+  });
+
+  const mouseEnterHandler = () => {
+    onActivePlaceCardMouseEnter && onActivePlaceCardMouseEnter(id);
+  };
+
   return (
     <article
-      className="cities__place-card place-card"
-      onMouseEnter={ ({currentTarget}: MouseEvent<HTMLElement>) => {
-        onActivePlaceCardMouseEnter(id);
-      }}
+      className={articleClassName}
+      onMouseEnter={mouseEnterHandler}
     >
       {premiumElement}
 
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div className={imageWrapperClassName}>
         <Link to={`/offer/${id}`}>
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image" id={id.toString()} />
         </Link>

@@ -3,16 +3,24 @@ import PlaceCard from '../place-card/place-card';
 
 type PlaceListType = {
   offers: OffersType[];
-  onActivePlaceCardMouseEnter: (arg0: string) => void;
+  currentCardType: string;
+  onActivePlaceCardMouseEnter?: (card: number) => void;
 }
 
-function PlacesList({offers, onActivePlaceCardMouseEnter}: PlaceListType): JSX.Element {
+function PlacesList({offers, currentCardType, onActivePlaceCardMouseEnter}: PlaceListType): JSX.Element {
   return (
-    <div className="cities__places-list places__list tabs__content">
+    <>
       {
-        offers.map((offer) => <PlaceCard offer={offer} key={offer.id} onActivePlaceCardMouseEnter={onActivePlaceCardMouseEnter} />)
+        offers.map((offer) => (
+          <PlaceCard
+            offer={offer}
+            currentCardType={currentCardType}
+            onActivePlaceCardMouseEnter={onActivePlaceCardMouseEnter}
+            key={offer.id}
+          />
+        ))
       }
-    </div>
+    </>
   );
 }
 

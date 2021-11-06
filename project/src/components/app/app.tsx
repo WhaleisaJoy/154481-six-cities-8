@@ -6,14 +6,15 @@ import Property from '../pages/property-page/property-page';
 import NotFoundPage from '../pages/not-found-page/not-found-page';
 import PrivateRoute from '../private-route/private-route';
 import { AppRoute, AuthorizationStatus } from '../../const';
-import { OffersType } from '../../types/types';
+import { CommentsType, OffersType } from '../../types/types';
 
 type AppProps = {
   placeCardCount: number;
   offers: OffersType[];
+  comments: CommentsType[];
 }
 
-function App({placeCardCount, offers}: AppProps): JSX.Element {
+function App({placeCardCount, offers, comments}: AppProps): JSX.Element {
   return (
     <BrowserRouter>
       <Switch>
@@ -33,7 +34,7 @@ function App({placeCardCount, offers}: AppProps): JSX.Element {
         >
         </PrivateRoute>
         <Route exact path={AppRoute.Room}>
-          <Property />
+          <Property offers={offers} comments={comments} />
         </Route>
         <Route>
           <NotFoundPage />
