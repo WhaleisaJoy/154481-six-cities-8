@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import L from 'leaflet';
-import { OffersType } from '../types/types';
+import { LocationType } from '../types/types';
 
-function useMap(mapRef: React.MutableRefObject<HTMLElement | null>, currentCity: Pick<OffersType, 'location'>): L.Map | null {
-  const { location } = currentCity;
+function useMap(mapRef: React.MutableRefObject<HTMLElement | null>, location: LocationType): L.Map | null {
   const [map, setMap] = useState<L.Map | null>(null);
 
   useEffect(() => {

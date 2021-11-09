@@ -9,27 +9,29 @@ type PlaceCardType = {
   onActivePlaceCardMouseEnter?: (card: number) => void;
 };
 
-function PlaceCard({offer, currentCardType, onActivePlaceCardMouseEnter}: PlaceCardType): JSX.Element {
+function PlaceCard({offer, currentCardType, onActivePlaceCardMouseEnter = () => ''}: PlaceCardType): JSX.Element {
   const { isPremium, isFavorite, previewImage, price, rating, title, type, id } = offer;
 
-  const premiumElement = isPremium && (<div className="place-card__mark"><span>Premium</span></div>);
   const bookmarkButtonClass = isFavorite ? 'place-card__bookmark-button place-card__bookmark-button--active button' : 'place-card__bookmark-button button';
-  const ratingPercentage = rating / MAX_RATING * 100;
 
-  const articleClassName = classNames({
-    'place-card': true,
-    'cities__place-card': currentCardType === cardType.CITIES,
-    'near-places__card': currentCardType === cardType.NEAR_PLACES,
-  });
+  const articleClassName = classNames(
+    'place-card',
+    {
+      'cities__place-card': currentCardType === cardType.CITIES,
+      'near-places__card': currentCardType === cardType.NEAR_PLACES,
+    },
+  );
 
-  const imageWrapperClassName = classNames({
-    'place-card__image-wrapper': true,
-    'cities__image-wrapper': currentCardType === cardType.CITIES,
-    'near-places__image-wrapper': currentCardType === cardType.NEAR_PLACES,
-  });
+  const imageWrapperClassName = classNames(
+    'place-card__image-wrapper',
+    {
+      'cities__image-wrapper': currentCardType === cardType.CITIES,
+      'near-places__image-wrapper': currentCardType === cardType.NEAR_PLACES,
+    },
+  );
 
   const mouseEnterHandler = () => {
-    onActivePlaceCardMouseEnter && onActivePlaceCardMouseEnter(id);
+    onActivePlaceCardMouseEnter(id);
   };
 
   return (
@@ -37,7 +39,16 @@ function PlaceCard({offer, currentCardType, onActivePlaceCardMouseEnter}: PlaceC
       className={articleClassName}
       onMouseEnter={mouseEnterHandler}
     >
-      {premiumElement}
+
+      {
+        isPremium
+        &&
+        <div className="place-card__mark">
+          <span>
+          Premium
+          </span>
+        </div>
+      }
 
       <div className={imageWrapperClassName}>
         <Link to={`/offer/${id}`}>
@@ -60,7 +71,10 @@ function PlaceCard({offer, currentCardType, onActivePlaceCardMouseEnter}: PlaceC
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${ratingPercentage}%`}}></span>
+            <span
+              style={{width: `${rating / MAX_RATING * 100}%`}}
+            >
+            </span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

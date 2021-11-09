@@ -3,7 +3,7 @@ import PageHeader from '../../page-header/page-header';
 import { OffersType } from '../../../types/types';
 import PlacesList from '../../places-list/places-list';
 import Map from '../../map/map';
-import { cardType, MAP_HEIGHT_MAIN_PAGE } from '../../../const';
+import { cardType } from '../../../const';
 
 type MainProps = {
   placeCardCount: number;
@@ -86,7 +86,7 @@ function Main({placeCardCount, offers}: MainProps):JSX.Element {
 
             </section>
             <div className="cities__right-section" data-active-card={activePlaceCard}>
-              <Map offers={offers} activePlaceCard={activePlaceCard} height={MAP_HEIGHT_MAIN_PAGE} />
+              <Map offers={offers} activePlaceCard={activePlaceCard} />
             </div>
           </div>
         </div>
