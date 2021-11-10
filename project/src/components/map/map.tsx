@@ -31,6 +31,11 @@ function Map({activePlaceCard, offers, height = MAP_HEIGHT_MAIN_PAGE}: MapProps)
 
   useEffect(() => {
     if(map) {
+      map.flyTo(
+        L.latLng(cityLocation.latitude, cityLocation.longitude),
+        cityLocation.zoom,
+      );
+
       offers.forEach((offer) => {
         const { location } = offer;
         const markerIcon = offer.id === activePlaceCard ? currentMarker : defaultMarker;

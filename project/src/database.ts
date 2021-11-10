@@ -1,4 +1,4 @@
-import { RatingSettingsType } from './types/types';
+import { CitiesType, RatingSettingsType } from './types/types';
 
 export const RatingSettings: RatingSettingsType[] = [
   {
@@ -26,3 +26,13 @@ export const RatingSettings: RatingSettingsType[] = [
     title: 'terribly',
   },
 ];
+
+export const Cities: CitiesType = {
+  PARIS: 'Paris',
+  COLOGNE: 'Cologne',
+  BRUSSELS: 'Brussels',
+  AMSTERDAM: 'Amsterdam',
+  HAMBURG: 'Hamburg',
+  DUSSELDORF: 'Dusseldorf',
+};
+
