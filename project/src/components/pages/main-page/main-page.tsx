@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import PageHeader from '../../page-header/page-header';
-import { OffersType } from '../../../types/types';
 import CitiesList from '../../cities-list/cities-list';
 import { StateType } from '../../../types/state';
 import { connect, ConnectedProps } from 'react-redux';
@@ -9,20 +8,16 @@ import Places from '../../places/places';
 import PlacesEmpty from '../../places-empty/places-empty';
 import classNames from 'classnames';
 
-type MainProps = {
-  offers: OffersType[];
-}
-
-const mapStateToProps = ({city}: StateType) => ({
+const mapStateToProps = ({city, offers}: StateType) => ({
   city,
+  offers,
 });
 
 const connector = connect(mapStateToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & MainProps;
 
-function Main({offers, city}: ConnectedComponentProps):JSX.Element {
+function Main({offers, city}: PropsFromRedux):JSX.Element {
   const [activePlaceCard, setActivePlaceCard] = useState<number | null>(null);
 
   function handleActivePlaceCardMouseEnter (card: number) {

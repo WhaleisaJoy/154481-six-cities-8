@@ -2,12 +2,8 @@ import { connect, ConnectedProps } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { Cities } from '../../database';
-import { chooseCity } from '../../store/actions';
+import { changeCity } from '../../store/action';
 import { Actions } from '../../types/action';
-
-// const mapDispatchToProps = (dispatch: Dispatch<Actions>) => bindActionCreators({
-//   onChooseCity: chooseCity,
-// }, dispatch);
 
 type CitiesListProps = {
   city: string;
@@ -15,7 +11,7 @@ type CitiesListProps = {
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
   onChooseCity(city: string) {
-    dispatch(chooseCity(city));
+    dispatch(changeCity(city));
   },
 });
 
