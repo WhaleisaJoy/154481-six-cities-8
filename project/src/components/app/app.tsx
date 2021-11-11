@@ -7,19 +7,40 @@ import NotFoundPage from '../pages/not-found-page/not-found-page';
 import PrivateRoute from '../private-route/private-route';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { CommentsType, OffersType } from '../../types/types';
+import { StateType } from '../../types/state';
+import { connect, ConnectedProps } from 'react-redux';
+import { Dispatch } from 'react';
+import { Actions } from '../../types/action';
+import { getOffers } from '../../store/actions';
+import { offersData } from '../../mock/offers';
 
 type AppProps = {
-  placeCardCount: number;
-  offers: OffersType[];
   comments: CommentsType[];
 }
 
-function App({placeCardCount, offers, comments}: AppProps): JSX.Element {
+const mapStateToProps = ({offers}: StateType) => ({
+  offers,
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
+  onGetOffers(offers: OffersType[]) {
+    dispatch(getOffers(offers));
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = AppProps & PropsFromRedux;
+
+function App({offers, comments, onGetOffers}: ConnectedComponentProps): JSX.Element {
+  onGetOffers(offersData);
+
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={[AppRoute.Root, AppRoute.Main]}>
-          <Main placeCardCount={placeCardCount} offers={offers} />
+          <Main offers={offers} />
         </Route>
         <Route exact path={AppRoute.Login}>
           <Login />
@@ -44,4 +65,5 @@ function App({placeCardCount, offers, comments}: AppProps): JSX.Element {
   );
 }
 
-export default App;
+export {App};
+export default connector(App);

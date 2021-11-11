@@ -3,19 +3,19 @@ import 'leaflet/dist/leaflet.css';
 import { useEffect, useRef } from 'react';
 import useMap from '../../hooks/useMap';
 import { OffersType } from '../../types/types';
-import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
+import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT, MAP_HEIGHT_MAIN_PAGE } from '../../const';
 
 type MapProps = {
   activePlaceCard: number | null;
   offers: OffersType[];
-  height: number;
+  height?: number;
 }
 
-function Map({activePlaceCard, offers, height}: MapProps): JSX.Element {
-  const currentCity = offers[0].city;
+function Map({activePlaceCard, offers, height = MAP_HEIGHT_MAIN_PAGE}: MapProps): JSX.Element {
+  const cityLocation = offers[0].city.location;
 
   const mapRef = useRef(null);
-  const map = useMap(mapRef, currentCity);
+  const map = useMap(mapRef, cityLocation);
 
   const defaultMarker = L.icon({
     iconUrl: URL_MARKER_DEFAULT,
@@ -31,6 +31,11 @@ function Map({activePlaceCard, offers, height}: MapProps): JSX.Element {
 
   useEffect(() => {
     if(map) {
+      map.flyTo(
+        L.latLng(cityLocation.latitude, cityLocation.longitude),
+        cityLocation.zoom,
+      );
+
       offers.forEach((offer) => {
         const { location } = offer;
         const markerIcon = offer.id === activePlaceCard ? currentMarker : defaultMarker;

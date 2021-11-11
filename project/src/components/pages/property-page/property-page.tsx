@@ -2,7 +2,6 @@ import { useParams } from 'react-router-dom';
 import { cardType, MAP_HEIGHT_PROPERTY_PAGE } from '../../../const';
 import { CommentsType, OffersType } from '../../../types/types';
 import Host from '../../host/host';
-// import CardListNearPlaces from '../../card-list-near-places/card-list-near-places';
 import Map from '../../map/map';
 import PageHeader from '../../page-header/page-header';
 import PlacesList from '../../places-list/places-list';
@@ -67,10 +66,6 @@ function Property({offers, comments}: PropertyProps): JSX.Element {
             <div className="near-places__list places__list">
               <PlacesList offers={nearOffers} currentCardType={cardType.NEAR_PLACES} />
             </div>
-
-            {/* {
-              <CardListNearPlaces offers={offers} />
-            } */}
 
           </section>
         </div>

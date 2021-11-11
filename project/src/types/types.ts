@@ -1,11 +1,13 @@
+export type LocationType = {
+  latitude: number,
+  longitude: number,
+  zoom: number,
+};
+
 export type OffersType = {
   bedrooms: number,
   city: {
-    location: {
-      latitude: number,
-      longitude: number,
-      zoom: number,
-    },
+    location: LocationType,
     name: string,
   },
   description: string,
@@ -51,4 +53,13 @@ export type FavoritesLocationOffersType = [string, OffersType[]];
 export type RatingSettingsType = {
   value: string,
   title: string,
+};
+
+export type CitiesType = {
+  PARIS: string,
+  COLOGNE: string,
+  BRUSSELS: string,
+  AMSTERDAM: string,
+  HAMBURG: string,
+  DUSSELDORF: string,
 };

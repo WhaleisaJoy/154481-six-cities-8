@@ -179,4 +179,40 @@ export const offersData: OffersType[] = [
     title: 'Wood and stone place',
     type: 'Private room',
   },
+
+
+  {
+    bedrooms: 2,
+    city: {
+      location: {
+        latitude: 48.85341,
+        longitude: 2.3488,
+        zoom: 10,
+      },
+      name: 'Paris',
+    },
+    description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
+    goods: ['Heating', 'Kitchen', 'Cable TV', 'Washing machine', 'Coffee machine', 'Dishwasher'],
+    host: {
+      avatarUrl: 'img/avatar-angelina.jpg',
+      id: 4,
+      isPro: false,
+      name: 'Angelina',
+    },
+    id: 5,
+    images: ['img/room.jpg', 'img/apartment-01.jpg'],
+    isFavorite: true,
+    isPremium: false,
+    location: {
+      latitude: 48.95341,
+      longitude: 2.4488,
+      zoom: 8,
+    },
+    maxAdults: 4,
+    previewImage: 'img/room.jpg',
+    price: 80,
+    rating: 4,
+    title: 'Wood and stone place',
+    type: 'Private room',
+  },
 ];
