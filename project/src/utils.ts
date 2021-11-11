@@ -1,6 +1,25 @@
-import { MAX_RATING } from './const';
+import { MAX_RATING, sortType } from './const';
 import { OffersType } from './types/types';
 
 export const toPercent = (num: number): number => Math.round(num) / MAX_RATING * 100;
 
 export const getOffersByCity = (city: string, offers: OffersType[]): OffersType[] => offers.filter((offer) => offer.city.name === city);
+
+export const sortOffers = (offers: OffersType[], sort: string): OffersType[] => {
+  switch (sort) {
+    case sortType.PRICE_TO_HIGH:
+      return [...offers].sort(sortByPriceToHigh);
+    case sortType.PRICE_TO_LOW:
+      return [...offers].sort(sortByPriceToLow);
+    case sortType.TOP_RATED_FIRST:
+      return [...offers].sort(sortByRatingToLow);
+    default:
+      return offers;
+  }
+};
+
+export const sortByPriceToHigh = (a: OffersType, b: OffersType): number => (a.price - b.price);
+
+export const sortByPriceToLow = (a: OffersType, b: OffersType): number => (b.price - a.price);
+
+export const sortByRatingToLow = (a: OffersType, b: OffersType): number => (b.rating - a.rating);

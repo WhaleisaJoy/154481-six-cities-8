@@ -6,6 +6,7 @@ import Property from '../pages/property-page/property-page';
 import NotFoundPage from '../pages/not-found-page/not-found-page';
 import PrivateRoute from '../private-route/private-route';
 import { AppRoute, AuthorizationStatus } from '../../const';
+
 function App(): JSX.Element {
   return (
     <BrowserRouter>

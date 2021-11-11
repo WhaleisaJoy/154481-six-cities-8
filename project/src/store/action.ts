@@ -15,3 +15,8 @@ export const getComments = (comments: CommentsType[]) => ({
   type: ActionType.GetComments,
   payload: comments,
 } as const);
+
+export const changeSort = (sort: string) => ({
+  type: ActionType.ChangeSort,
+  payload: sort,
+} as const);
