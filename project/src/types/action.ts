@@ -1,20 +1,14 @@
-import { OffersType } from './types';
+import { changeCity, changeSort, getComments, getOffers } from '../store/action';
 
 export enum ActionType {
-  ChooseCity = 'main/chooseCity',
+  ChangeCity = 'main/changeCity',
   GetOffers = 'app/getOffers',
-}
-
-export type ChooseCityAction = {
-  type: ActionType.ChooseCity,
-  payload: string,
-}
-
-export type GetOffersAction = {
-  type: ActionType.GetOffers,
-  payload: OffersType[],
+  GetComments = 'app/getComments',
+  ChangeSort = 'main/changeSort',
 }
 
 export type Actions =
-  | ChooseCityAction
-  | GetOffersAction;
+  | ReturnType<typeof changeCity>
+  | ReturnType<typeof getOffers>
+  | ReturnType<typeof getComments>
+  | ReturnType<typeof changeSort>;

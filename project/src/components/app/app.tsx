@@ -6,41 +6,13 @@ import Property from '../pages/property-page/property-page';
 import NotFoundPage from '../pages/not-found-page/not-found-page';
 import PrivateRoute from '../private-route/private-route';
 import { AppRoute, AuthorizationStatus } from '../../const';
-import { CommentsType, OffersType } from '../../types/types';
-import { StateType } from '../../types/state';
-import { connect, ConnectedProps } from 'react-redux';
-import { Dispatch } from 'react';
-import { Actions } from '../../types/action';
-import { getOffers } from '../../store/actions';
-import { offersData } from '../../mock/offers';
 
-type AppProps = {
-  comments: CommentsType[];
-}
-
-const mapStateToProps = ({offers}: StateType) => ({
-  offers,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
-  onGetOffers(offers: OffersType[]) {
-    dispatch(getOffers(offers));
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = AppProps & PropsFromRedux;
-
-function App({offers, comments, onGetOffers}: ConnectedComponentProps): JSX.Element {
-  onGetOffers(offersData);
-
+function App(): JSX.Element {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={[AppRoute.Root, AppRoute.Main]}>
-          <Main offers={offers} />
+          <Main />
         </Route>
         <Route exact path={AppRoute.Login}>
           <Login />
@@ -49,13 +21,13 @@ function App({offers, comments, onGetOffers}: ConnectedComponentProps): JSX.Elem
           exact
           path={AppRoute.Favorites}
           render={() => (
-            <Favorites offers={offers} />
+            <Favorites />
           )}
           authorizationStatus={AuthorizationStatus.Auth}
         >
         </PrivateRoute>
         <Route exact path={AppRoute.Room}>
-          <Property offers={offers} comments={comments} />
+          <Property />
         </Route>
         <Route>
           <NotFoundPage />
@@ -65,5 +37,4 @@ function App({offers, comments, onGetOffers}: ConnectedComponentProps): JSX.Elem
   );
 }
 
-export {App};
-export default connector(App);
+export default App;

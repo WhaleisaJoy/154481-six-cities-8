@@ -1,18 +1,27 @@
+import { sortType } from '../const';
 import { Cities } from '../database';
+import { commentsData } from '../mock/comments';
+import { offersData } from '../mock/offers';
 import { Actions, ActionType } from '../types/action';
 import { StateType } from '../types/state';
 
 const initialState = {
   city: Cities.PARIS,
-  offers: [],
+  offers: offersData,
+  comments: commentsData,
+  currentSort: sortType.POPULAR,
 };
 
 const reducer = (state: StateType = initialState, action: Actions): StateType => {
   switch (action.type) {
-    case ActionType.ChooseCity:
+    case ActionType.ChangeCity:
       return {...state, city: action.payload};
     case ActionType.GetOffers:
       return {...state, offers: action.payload};
+    case ActionType.GetComments:
+      return {...state, comments: action.payload};
+    case ActionType.ChangeSort:
+      return {...state, currentSort: action.payload};
     default:
       return state;
   }

@@ -1,6 +1,7 @@
+import { connect, ConnectedProps } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { cardType, MAP_HEIGHT_PROPERTY_PAGE } from '../../../const';
-import { CommentsType, OffersType } from '../../../types/types';
+import { StateType } from '../../../types/state';
 import Host from '../../host/host';
 import Map from '../../map/map';
 import PageHeader from '../../page-header/page-header';
@@ -8,18 +9,22 @@ import PlacesList from '../../places-list/places-list';
 import PropertyInfo from '../../property-info/property-info';
 import Reviews from '../../reviews/reviews';
 
-type PropertyProps = {
-  offers: OffersType[];
-  comments: CommentsType[];
-}
-
 type ParamType = {
   id: string;
 }
 
+const mapStateToProps = ({offers, comments}: StateType) => ({
+  offers,
+  comments,
+});
+
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
 const NEAR_OFFERS_MAX_AMOUNT = 3;
 
-function Property({offers, comments}: PropertyProps): JSX.Element {
+function Property({offers, comments}: PropsFromRedux): JSX.Element {
   const { id } = useParams<ParamType>();
   const currentOffer = offers[parseInt(id, 10)];
   const { images } = currentOffer;
@@ -74,4 +79,5 @@ function Property({offers, comments}: PropertyProps): JSX.Element {
   );
 }
 
-export default Property;
+export {Property};
+export default connector(Property);
