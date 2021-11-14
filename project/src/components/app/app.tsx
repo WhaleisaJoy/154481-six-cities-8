@@ -6,8 +6,23 @@ import Property from '../pages/property-page/property-page';
 import NotFoundPage from '../pages/not-found-page/not-found-page';
 import PrivateRoute from '../private-route/private-route';
 import { AppRoute, AuthorizationStatus } from '../../const';
+import { StateType } from '../../types/state';
+import { connect, ConnectedProps } from 'react-redux';
+import LoadingPage from '../pages/loading-page/loading-page';
 
-function App(): JSX.Element {
+const mapStateToProps = ({isDataLoaded}: StateType) => ({
+  isDataLoaded,
+});
+
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+function App({isDataLoaded}: PropsFromRedux): JSX.Element {
+  if(!isDataLoaded) {
+    return <LoadingPage />;
+  }
+
   return (
     <BrowserRouter>
       <Switch>
@@ -37,4 +52,5 @@ function App(): JSX.Element {
   );
 }
 
-export default App;
+export {App};
+export default connector(App);

@@ -5,4 +5,5 @@ export type StateType = {
   offers: OffersType[],
   comments: CommentsType[],
   currentSort: string,
+  isDataLoaded: boolean,
 };
