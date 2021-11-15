@@ -22,6 +22,7 @@ const connector = connect(mapStateToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
+const GALLERY_IMAGES_MAX_AMOUNT = 6;
 const NEAR_OFFERS_MAX_AMOUNT = 3;
 
 function Property({offers, comments}: PropsFromRedux): JSX.Element {
@@ -41,11 +42,12 @@ function Property({offers, comments}: PropsFromRedux): JSX.Element {
           <div className="property__gallery-container container">
             <div className="property__gallery">
               {
-                images.map((image) => (
-                  <div className="property__image-wrapper" key={image}>
-                    <img className="property__image" src={image} alt="Photo studio" />
-                  </div>
-                ))
+                [...images.slice(0, GALLERY_IMAGES_MAX_AMOUNT)]
+                  .map((image) => (
+                    <div className="property__image-wrapper" key={image}>
+                      <img className="property__image" src={image} alt="Photo studio" />
+                    </div>
+                  ))
               }
             </div>
           </div>

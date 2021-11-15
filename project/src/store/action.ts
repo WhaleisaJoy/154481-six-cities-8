@@ -6,8 +6,8 @@ export const changeCity = (city: string) => ({
   payload: city,
 } as const);
 
-export const getOffers = (offers: OffersType[]) => ({
-  type: ActionType.GetOffers,
+export const loadOffers = (offers: OffersType[]) => ({
+  type: ActionType.LoadOffers,
   payload: offers,
 } as const);
 
