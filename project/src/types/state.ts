@@ -1,3 +1,4 @@
+import { AuthorizationStatus } from '../const';
 import { CommentsType, OffersType } from './types';
 
 export type StateType = {
@@ -6,4 +7,5 @@ export type StateType = {
   comments: CommentsType[],
   currentSort: string,
   isDataLoaded: boolean,
+  authorizationStatus: AuthorizationStatus,
 };
