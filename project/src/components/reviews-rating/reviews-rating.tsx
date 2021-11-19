@@ -3,10 +3,11 @@ import { RatingSettingsType } from '../../types/types';
 
 type ReviewsRatingType = {
   settings: RatingSettingsType;
+  rating: number,
   onChange: ({target}: ChangeEvent<HTMLInputElement>) => void;
 };
 
-function ReviewsRating({settings, onChange}: ReviewsRatingType): JSX.Element {
+function ReviewsRating({settings, rating, onChange}: ReviewsRatingType): JSX.Element {
   const { value, title } = settings;
 
   return (
@@ -17,6 +18,7 @@ function ReviewsRating({settings, onChange}: ReviewsRatingType): JSX.Element {
         value={value}
         id={`${value}-stars`}
         type="radio"
+        checked={value === rating.toString()}
         onChange={onChange}
       />
 

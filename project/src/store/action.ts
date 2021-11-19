@@ -1,25 +1,31 @@
-import { AppRoute, AuthorizationStatus } from '../const';
+import { AppRoute, AuthorizationStatus, SendingCommentStatus } from '../const';
 import { ActionType } from '../types/action';
-import { CommentsType, OffersType } from '../types/types';
-
-export const changeCity = (city: string) => ({
-  type: ActionType.ChangeCity,
-  payload: city,
-} as const);
+import { CommentsType } from '../types/comment';
+import { OffersType } from '../types/offer';
 
 export const loadOffers = (offers: OffersType[]) => ({
   type: ActionType.LoadOffers,
   payload: offers,
 } as const);
 
-export const getComments = (comments: CommentsType[]) => ({
-  type: ActionType.GetComments,
+export const loadCurrentOffer = (currentOffer: OffersType | null) => ({
+  type: ActionType.LoadCurrentOffer,
+  payload: currentOffer,
+} as const);
+
+export const loadOffersNearby = (offers: OffersType[]) => ({
+  type: ActionType.LoadOffersNearby,
+  payload: offers,
+} as const);
+
+export const loadComments = (comments: CommentsType[]) => ({
+  type: ActionType.LoadComments,
   payload: comments,
 } as const);
 
-export const changeSort = (sort: string) => ({
-  type: ActionType.ChangeSort,
-  payload: sort,
+export const changeSendingCommentStatus = (sendingCommentStatus: SendingCommentStatus) => ({
+  type: ActionType.ChangeSendingCommentStatus,
+  payload: sendingCommentStatus,
 } as const);
 
 export const requireAuthorization = (authStatus: AuthorizationStatus) => ({
@@ -34,4 +40,14 @@ export const requireLogout = () => ({
 export const redirectToRoute = (url: AppRoute) => ({
   type: ActionType.RedirectToRoute,
   payload: url,
+} as const);
+
+export const changeCity = (city: string) => ({
+  type: ActionType.ChangeCity,
+  payload: city,
+} as const);
+
+export const changeSort = (sort: string) => ({
+  type: ActionType.ChangeSort,
+  payload: sort,
 } as const);

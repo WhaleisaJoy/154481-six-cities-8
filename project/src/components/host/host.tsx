@@ -1,4 +1,4 @@
-import { OffersType } from '../../types/types';
+import { OffersType } from '../../types/offer';
 
 type HostType = {
   offer: OffersType;

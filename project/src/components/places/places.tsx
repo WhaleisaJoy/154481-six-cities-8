@@ -1,7 +1,7 @@
 import { connect, ConnectedProps } from 'react-redux';
 import { cardType } from '../../const';
+import { OffersType } from '../../types/offer';
 import { StateType } from '../../types/state';
-import { OffersType } from '../../types/types';
 import { sortOffers } from '../../utils';
 import Map from '../map/map';
 import PlacesList from '../places-list/places-list';

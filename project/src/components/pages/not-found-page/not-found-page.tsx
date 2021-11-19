@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import PageHeader from '../../page-header/page-header';
 
 function NotFoundPage():JSX.Element {
@@ -8,9 +9,9 @@ function NotFoundPage():JSX.Element {
       <main className="page__main page__main--index">
         <div className="container">
           <h1>404 Page not found</h1>
-          <a className="header__nav-link" href="/">
+          <Link className="header__nav-link" to="/">
             <span className="header__signout">Вернуться на главную страницу</span>
-          </a>
+          </Link>
         </div>
       </main>
     </div>

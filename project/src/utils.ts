@@ -1,5 +1,5 @@
 import { AuthorizationStatus, MAX_RATING, sortType } from './const';
-import { OffersType } from './types/types';
+import { OffersType } from './types/offer';
 
 export const toPercent = (num: number): number => Math.round(num) / MAX_RATING * 100;
 

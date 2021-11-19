@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { CommentsType } from '../../types/types';
+import { CommentsType } from '../../types/comment';
 import { toPercent } from '../../utils';
 
 type ReviewsListProps = {
