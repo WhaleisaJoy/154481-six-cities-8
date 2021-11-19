@@ -1,6 +1,7 @@
-import { OfferServerType, OffersType } from '../types/types';
+import { CommentsServerType, CommentsType } from '../types/comment';
+import { OfferServerType, OffersType } from '../types/offer';
 
-export const adaptToClient = (offer: OfferServerType): OffersType => {
+export const adaptOffersToClient = (offer: OfferServerType): OffersType => {
   const adaptedOffer = Object.assign(
     {},
     offer,
@@ -21,3 +22,21 @@ export const adaptToClient = (offer: OfferServerType): OffersType => {
 
   return adaptedOffer;
 };
+
+export const adaptCommentsToClient = (comment: CommentsServerType): CommentsType => {
+  const adaptedComment = Object.assign(
+    {},
+    comment,
+    {
+      date: new Date(comment['date']),
+      user: {
+        ...comment.user,
+        avatarUrl: comment.user['avatar_url'],
+        isPro: comment.user['is_pro'],
+      },
+    },
+  );
+
+  return adaptedComment;
+};
+

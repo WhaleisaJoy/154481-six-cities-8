@@ -1,26 +1,43 @@
 import { AxiosInstance } from 'axios';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { changeCity, changeSort, getComments, loadOffers, redirectToRoute, requireAuthorization, requireLogout } from '../store/action';
 import { StateType } from './state';
+import {
+  changeCity,
+  changeSendingCommentStatus,
+  changeSort,
+  loadComments,
+  loadCurrentOffer,
+  loadOffers,
+  loadOffersNearby,
+  redirectToRoute,
+  requireAuthorization,
+  requireLogout
+} from '../store/action';
 
 export enum ActionType {
-  ChangeCity = 'main/changeCity',
   LoadOffers = 'data/loadOffers',
-  GetComments = 'app/getComments',
-  ChangeSort = 'main/changeSort',
+  LoadCurrentOffer = 'data/loadCurrentOffer',
+  LoadOffersNearby = 'data/loadOffersNearby',
+  LoadComments = 'data/loadComments',
+  ChangeSendingCommentStatus = 'data/changeSendingCommentStatus',
   RequireAuthorization = 'user/requireAuthorization',
   RequireLogout = 'user/requireLogout',
   RedirectToRoute = 'app/redirectToRoute',
+  ChangeCity = 'main/changeCity',
+  ChangeSort = 'main/changeSort',
 }
 
 export type Actions =
-  | ReturnType<typeof changeCity>
   | ReturnType<typeof loadOffers>
-  | ReturnType<typeof getComments>
-  | ReturnType<typeof changeSort>
+  | ReturnType<typeof loadCurrentOffer>
+  | ReturnType<typeof loadOffersNearby>
+  | ReturnType<typeof loadComments>
+  | ReturnType<typeof changeSendingCommentStatus>
   | ReturnType<typeof requireAuthorization>
   | ReturnType<typeof requireLogout>
-  | ReturnType<typeof redirectToRoute>;
+  | ReturnType<typeof redirectToRoute>
+  | ReturnType<typeof changeCity>
+  | ReturnType<typeof changeSort>;
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, StateType, AxiosInstance, Actions>;
 

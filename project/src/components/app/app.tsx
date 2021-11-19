@@ -22,7 +22,7 @@ const connector = connect(mapStateToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function App({authorizationStatus, isDataLoaded}: PropsFromRedux): JSX.Element {
-  if(isCheckedAuth(authorizationStatus) && !isDataLoaded) {
+  if(isCheckedAuth(authorizationStatus) || !isDataLoaded) {
     return <LoadingPage />;
   }
 

@@ -1,7 +1,7 @@
 import {Link} from 'react-router-dom';
 import { cardType, MAX_RATING } from '../../const';
-import { OffersType } from '../../types/types';
 import classNames from 'classnames';
+import { OffersType } from '../../types/offer';
 
 type PlaceCardType = {
   offer: OffersType;

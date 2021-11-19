@@ -12,10 +12,13 @@ export enum AppRoute {
   Login = '/login',
   Favorites = '/favorites',
   Room = '/offer/:id',
+  NotFound = '/not-found',
 }
 
 export enum APIRoute {
   Offers = '/hotels',
+  OffersNearby = '/nearby',
+  Comments = '/comments',
   Login = '/login',
   Logout = '/logout',
 }
@@ -24,6 +27,11 @@ export enum AuthorizationStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
+}
+
+export enum SendingCommentStatus {
+  Sent = 'SENT',
+  NotSent = 'NOT_SENT',
 }
 
 export const cardType = {

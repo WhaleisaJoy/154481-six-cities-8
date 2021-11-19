@@ -2,7 +2,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useEffect, useRef } from 'react';
 import useMap from '../../hooks/useMap';
-import { OffersType } from '../../types/types';
+import { OffersType } from '../../types/offer';
 import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT, MAP_HEIGHT_MAIN_PAGE } from '../../const';
 
 type MapProps = {

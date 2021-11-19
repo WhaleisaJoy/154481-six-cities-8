@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PageHeader from '../../page-header/page-header';
 import CitiesList from '../../cities-list/cities-list';
 import { StateType } from '../../../types/state';
@@ -7,18 +7,30 @@ import { getOffersByCity } from '../../../utils';
 import Places from '../../places/places';
 import PlacesEmpty from '../../places-empty/places-empty';
 import classNames from 'classnames';
+import { fetchOfferAction } from '../../../store/api-action';
+import { ThunkAppDispatch } from '../../../types/action';
 
 const mapStateToProps = ({city, offers}: StateType) => ({
   city,
   offers,
 });
 
-const connector = connect(mapStateToProps);
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
+  onDataFetch() {
+    dispatch(fetchOfferAction());
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-function Main({offers, city}: PropsFromRedux):JSX.Element {
+function Main({offers, city, onDataFetch}: PropsFromRedux):JSX.Element {
   const [activePlaceCard, setActivePlaceCard] = useState<number | null>(null);
+
+  useEffect(() => {
+    onDataFetch();
+  }, [onDataFetch]);
 
   function handleActivePlaceCardMouseEnter (card: number) {
     setActivePlaceCard(card);

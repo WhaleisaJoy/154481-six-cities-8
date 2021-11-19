@@ -1,11 +1,16 @@
-import { AuthorizationStatus } from '../const';
-import { CommentsType, OffersType } from './types';
+import { AuthorizationStatus, SendingCommentStatus } from '../const';
+import { CommentsType } from './comment';
+import { OffersType } from './offer';
 
 export type StateType = {
-  city: string,
   offers: OffersType[],
+  currentOffer: OffersType | null,
+  offersNearby: OffersType[],
   comments: CommentsType[],
-  currentSort: string,
   isDataLoaded: boolean,
+  isCurrentOfferLoaded: boolean,
+  sendingCommentStatus: SendingCommentStatus,
   authorizationStatus: AuthorizationStatus,
+  city: string,
+  currentSort: string,
 };
