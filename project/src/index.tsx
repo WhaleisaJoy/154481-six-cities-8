@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 import App from './components/app/app';
 import { rootReducer } from './store/root-reducer';
 import { checkAuthAction } from './store/api-action';
-import { ThunkAppDispatch } from './types/action';
 import { createAPI } from './services/api';
 import { requireAuthorization } from './store/action';
 import { AuthorizationStatus } from './const';
@@ -25,7 +24,7 @@ const store = configureStore({
     }).concat(redirect),
 });
 
-(store.dispatch as ThunkAppDispatch)(checkAuthAction());
+store.dispatch(checkAuthAction());
 
 ReactDOM.render(
   <React.StrictMode>

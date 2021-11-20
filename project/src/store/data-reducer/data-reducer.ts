@@ -1,6 +1,7 @@
+import { createReducer } from '@reduxjs/toolkit';
 import { defaultOffer, SendingCommentStatus } from '../../const';
-import { Actions, ActionType } from '../../types/action';
 import { DataReducerType } from '../../types/state';
+import { changeSendingCommentStatus, loadComments, loadCurrentOffer, loadOffers, loadOffersNearby } from '../action';
 
 const initialState: DataReducerType = {
   offers: [],
@@ -12,29 +13,25 @@ const initialState: DataReducerType = {
   sendingCommentStatus: SendingCommentStatus.NotSent,
 };
 
-const dataReducer = (state = initialState, action: Actions): DataReducerType => {
-  switch (action.type) {
-    case ActionType.LoadOffers:
-      return {
-        ...state,
-        offers: action.payload,
-        isDataLoaded: true,
-      };
-    case ActionType.LoadCurrentOffer:
-      return {
-        ...state,
-        currentOffer: action.payload,
-        isCurrentOfferLoaded: true,
-      };
-    case ActionType.LoadOffersNearby:
-      return {...state, offersNearby: action.payload};
-    case ActionType.LoadComments:
-      return {...state, comments: action.payload};
-    case ActionType.ChangeSendingCommentStatus:
-      return {...state, sendingCommentStatus: action.payload};
-    default:
-      return state;
-  }
-};
+const dataReducer = createReducer(initialState, (builder) => {
+  builder
+    .addCase(loadOffers, (state, action) => {
+      state.offers = action.payload;
+      state.isDataLoaded = true;
+    })
+    .addCase(loadCurrentOffer, (state, action) => {
+      state.currentOffer = action.payload;
+      state.isCurrentOfferLoaded = true;
+    })
+    .addCase(loadOffersNearby, (state, action) => {
+      state.offersNearby = action.payload;
+    })
+    .addCase(loadComments, (state, action) => {
+      state.comments = action.payload;
+    })
+    .addCase(changeSendingCommentStatus, (state, action) => {
+      state.sendingCommentStatus = action.payload;
+    });
+});
 
 export {dataReducer};
