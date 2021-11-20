@@ -1,11 +1,9 @@
 import { useEffect } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { cardType, MAP_HEIGHT_PROPERTY_PAGE } from '../../../const';
 import { fetchCurrentOfferAction, fetchOffersNearbyAction } from '../../../store/api-action';
 import { getCurrentOffer, getCurrentOfferLoadedStatus, getOffersNearby } from '../../../store/data-reducer/selectors';
-import { ThunkAppDispatch } from '../../../types/action';
-import { StateType } from '../../../types/state';
 import Host from '../../host/host';
 import LoadWrapper from '../../load-wrapper/load-wrapper';
 import Map from '../../map/map';
@@ -18,37 +16,32 @@ type ParamType = {
   id: string;
 }
 
-const mapStateToProps = (state: StateType) => ({
-  currentOffer: getCurrentOffer(state),
-  isCurrentOfferLoaded: getCurrentOfferLoadedStatus(state),
-  offersNearby: getOffersNearby(state),
-});
-
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onCurrentOfferFetch(id: number) {
-    dispatch(fetchCurrentOfferAction(id));
-  },
-  onOffersNearbyFetch(id: number) {
-    dispatch(fetchOffersNearbyAction(id));
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
 const GALLERY_IMAGES_MAX_AMOUNT = 6;
 
-function Property({currentOffer, isCurrentOfferLoaded, offersNearby, onCurrentOfferFetch, onOffersNearbyFetch}: PropsFromRedux): JSX.Element {
+function Property(): JSX.Element {
+  const currentOffer = useSelector(getCurrentOffer);
+  const isCurrentOfferLoaded = useSelector(getCurrentOfferLoadedStatus);
+  const offersNearby = useSelector(getOffersNearby);
+
+  const dispatch = useDispatch();
+
   const { id } = useParams<ParamType>();
 
   useEffect(() => {
+    const onCurrentOfferFetch = (idItem: number) => {
+      dispatch(fetchCurrentOfferAction(idItem));
+    };
+
     onCurrentOfferFetch(parseInt(id, 10));
-  }, [id, onCurrentOfferFetch]);
+  }, [dispatch, id]);
 
   useEffect(() => {
+    const onOffersNearbyFetch = (idItem: number) => {
+      dispatch(fetchOffersNearbyAction(idItem));
+    };
+
     onOffersNearbyFetch(parseInt(id, 10));
-  }, [id, onOffersNearbyFetch]);
+  }, [dispatch, id]);
 
   const { images } = currentOffer;
 
@@ -104,5 +97,4 @@ function Property({currentOffer, isCurrentOfferLoaded, offersNearby, onCurrentOf
   );
 }
 
-export {Property};
-export default connector(Property);
+export default Property;

@@ -28,7 +28,7 @@ export const adaptCommentsToClient = (comment: CommentsServerType): CommentsType
     {},
     comment,
     {
-      date: new Date(comment['date']),
+      // date: new Date(comment['date']),
       user: {
         ...comment.user,
         avatarUrl: comment.user['avatar_url'],

@@ -1,8 +1,7 @@
-import { connect, ConnectedProps } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { cardType } from '../../const';
 import { getCurrentSort } from '../../store/interface-reducer/selectors';
 import { OffersType } from '../../types/offer';
-import { StateType } from '../../types/state';
 import { sortOffers } from '../../utils';
 import Map from '../map/map';
 import PlacesList from '../places-list/places-list';
@@ -15,16 +14,9 @@ type PlacesProps = {
   onActivePlaceCardMouseEnter: (card: number) => void;
 };
 
-const mapStateToProps = (state: StateType) => ({
-  currentSort: getCurrentSort(state),
-});
+function Places({offers, city, activePlaceCard, onActivePlaceCardMouseEnter}: PlacesProps): JSX.Element {
+  const currentSort = useSelector(getCurrentSort);
 
-const connector = connect(mapStateToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & PlacesProps;
-
-function Places({offers, city, activePlaceCard, onActivePlaceCardMouseEnter, currentSort}: ConnectedComponentProps): JSX.Element {
   const sortedOffers = sortOffers(offers, currentSort);
 
   return (
@@ -47,5 +39,4 @@ function Places({offers, city, activePlaceCard, onActivePlaceCardMouseEnter, cur
   );
 }
 
-export {Places};
-export default connector(Places);
+export default Places;

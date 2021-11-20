@@ -1,22 +1,17 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { loginAction } from '../../../store/api-action';
-import { ThunkAppDispatch } from '../../../types/action';
 import { AuthData } from '../../../types/auth-data';
 import PageHeader from '../../page-header/page-header';
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onSubmit(authData: AuthData) {
+function Login(): JSX.Element {
+  const dispatch = useDispatch();
+
+  const onSubmit = (authData: AuthData) => {
     dispatch(loginAction(authData));
-  },
-});
+  };
 
-const connector = connect(null, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function Login({onSubmit}: PropsFromRedux): JSX.Element {
   const [form, setForm] = useState({
     email: '',
     password: '',
@@ -99,5 +94,4 @@ function Login({onSubmit}: PropsFromRedux): JSX.Element {
   );
 }
 
-export {Login};
-export default connector(Login);
+export default Login;

@@ -31,7 +31,7 @@ function ReviewsList({comments}: ReviewsListProps): JSX.Element {
               <p className="reviews__text">
                 {comment}
               </p>
-              <time className="reviews__time" dateTime={date.toISOString()}>
+              <time className="reviews__time" dateTime={date}>
                 {dayjs(date).format('MMMM YYYY')}
               </time>
             </div>

@@ -1,27 +1,18 @@
 import { useState } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
-import { Dispatch } from 'redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { sortType } from '../../const';
 import { changeSort } from '../../store/action';
 import { getCurrentSort } from '../../store/interface-reducer/selectors';
-import { Actions } from '../../types/action';
-import { StateType } from '../../types/state';
 
-const mapStateToProps = (state: StateType) => ({
-  currentSort: getCurrentSort(state),
-});
+function Sort(): JSX.Element {
+  const currentSort = useSelector(getCurrentSort);
 
-const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
-  onSortChange(currentSort: string) {
-    dispatch(changeSort(currentSort));
-  },
-});
+  const dispatch = useDispatch();
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
+  const onSortChange = (currentSortItem: string) => {
+    dispatch(changeSort(currentSortItem));
+  };
 
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function Sort({currentSort, onSortChange}: PropsFromRedux): JSX.Element {
   const [isSortOptionsOpen, setSortOptionsOpen] = useState<boolean>(false);
 
   const sortOptionsClassNameActive = isSortOptionsOpen ? 'places__options--opened' : '';
@@ -68,5 +59,4 @@ function Sort({currentSort, onSortChange}: PropsFromRedux): JSX.Element {
   );
 }
 
-export {Sort};
-export default connector(Sort);
+export default Sort;

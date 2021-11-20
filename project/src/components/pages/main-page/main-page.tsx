@@ -1,40 +1,33 @@
 import { useEffect, useState } from 'react';
 import PageHeader from '../../page-header/page-header';
 import CitiesList from '../../cities-list/cities-list';
-import { StateType } from '../../../types/state';
-import { connect, ConnectedProps } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getOffersByCity } from '../../../utils';
 import Places from '../../places/places';
 import PlacesEmpty from '../../places-empty/places-empty';
 import classNames from 'classnames';
 import { fetchOfferAction } from '../../../store/api-action';
-import { ThunkAppDispatch } from '../../../types/action';
 import { getDataLoadedStatus, getOffers } from '../../../store/data-reducer/selectors';
 import { getCity } from '../../../store/interface-reducer/selectors';
 import LoadWrapper from '../../load-wrapper/load-wrapper';
 
-const mapStateToProps = (state: StateType) => ({
-  offers: getOffers(state),
-  isDataLoaded: getDataLoadedStatus(state),
-  city: getCity(state),
-});
+function Main():JSX.Element {
+  const offers = useSelector(getOffers);
+  const isDataLoaded = useSelector(getDataLoadedStatus);
+  const city = useSelector(getCity);
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onDataFetch() {
-    dispatch(fetchOfferAction());
-  },
-});
+  const dispatch = useDispatch();
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
 
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function Main({offers, isDataLoaded, city, onDataFetch}: PropsFromRedux):JSX.Element {
   const [activePlaceCard, setActivePlaceCard] = useState<number | null>(null);
 
   useEffect(() => {
+    const onDataFetch = () => {
+      dispatch(fetchOfferAction());
+    };
+
     onDataFetch();
-  }, [onDataFetch]);
+  }, [dispatch]);
 
   function handleActivePlaceCardMouseEnter (card: number) {
     setActivePlaceCard(card);
@@ -72,5 +65,4 @@ function Main({offers, isDataLoaded, city, onDataFetch}: PropsFromRedux):JSX.Ele
   );
 }
 
-export {Main};
-export default connector(Main);
+export default Main;

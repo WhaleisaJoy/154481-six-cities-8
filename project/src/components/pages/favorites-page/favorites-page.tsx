@@ -1,18 +1,11 @@
-import { connect, ConnectedProps } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { getOffers } from '../../../store/data-reducer/selectors';
-import { StateType } from '../../../types/state';
 import FavoritesLocation from '../../favorites-location/favorites-location';
 import PageHeader from '../../page-header/page-header';
 
-const mapStateToProps = (state: StateType) => ({
-  offers: getOffers(state),
-});
+function Favorites(): JSX.Element {
+  const offers = useSelector(getOffers);
 
-const connector = connect(mapStateToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function Favorites({offers}: PropsFromRedux): JSX.Element {
   const favoritesOffers = offers.filter((offer) => offer.isFavorite);
 
   const cityNames = favoritesOffers.map((offer) => offer.city.name);
@@ -43,5 +36,4 @@ function Favorites({offers}: PropsFromRedux): JSX.Element {
   );
 }
 
-export {Favorites};
-export default connector(Favorites);
+export default Favorites;
