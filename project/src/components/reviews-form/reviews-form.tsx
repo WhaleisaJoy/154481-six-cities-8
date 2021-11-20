@@ -9,13 +9,14 @@ import { useParams } from 'react-router';
 import { StateType } from '../../types/state';
 import { SendingCommentStatus } from '../../const';
 import { changeSendingCommentStatus } from '../../store/action';
+import { getSendingCommentStatus } from '../../store/data-reducer/selectors';
 
 type ParamType = {
   id: string;
 }
 
-const mapStateToProps = ({sendingCommentStatus}: StateType) => ({
-  sendingCommentStatus,
+const mapStateToProps = (state: StateType) => ({
+  sendingCommentStatus: getSendingCommentStatus(state),
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({

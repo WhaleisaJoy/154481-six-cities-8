@@ -11,10 +11,12 @@ import { connect, ConnectedProps } from 'react-redux';
 import LoadingPage from '../pages/loading-page/loading-page';
 import { isCheckedAuth } from '../../utils';
 import browserHistory from '../../browser-history';
+import { getAuthorizationStatus } from '../../store/user-reducer/selectors';
+import { getDataLoadedStatus } from '../../store/data-reducer/selectors';
 
-const mapStateToProps = ({authorizationStatus, isDataLoaded}: StateType) => ({
-  authorizationStatus,
-  isDataLoaded,
+const mapStateToProps = (state: StateType) => ({
+  authorizationStatus: getAuthorizationStatus(state),
+  isDataLoaded: getDataLoadedStatus(state),
 });
 
 const connector = connect(mapStateToProps);
@@ -22,7 +24,7 @@ const connector = connect(mapStateToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function App({authorizationStatus, isDataLoaded}: PropsFromRedux): JSX.Element {
-  if(isCheckedAuth(authorizationStatus) || !isDataLoaded) {
+  if(isCheckedAuth(authorizationStatus)) {
     return <LoadingPage />;
   }
 

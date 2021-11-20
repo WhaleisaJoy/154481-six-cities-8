@@ -1,10 +1,11 @@
 import { connect, ConnectedProps } from 'react-redux';
+import { getOffers } from '../../../store/data-reducer/selectors';
 import { StateType } from '../../../types/state';
 import FavoritesLocation from '../../favorites-location/favorites-location';
 import PageHeader from '../../page-header/page-header';
 
-const mapStateToProps = ({offers}: StateType) => ({
-  offers,
+const mapStateToProps = (state: StateType) => ({
+  offers: getOffers(state),
 });
 
 const connector = connect(mapStateToProps);

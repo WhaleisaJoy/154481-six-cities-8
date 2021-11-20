@@ -9,10 +9,14 @@ import PlacesEmpty from '../../places-empty/places-empty';
 import classNames from 'classnames';
 import { fetchOfferAction } from '../../../store/api-action';
 import { ThunkAppDispatch } from '../../../types/action';
+import { getDataLoadedStatus, getOffers } from '../../../store/data-reducer/selectors';
+import { getCity } from '../../../store/interface-reducer/selectors';
+import LoadWrapper from '../../load-wrapper/load-wrapper';
 
-const mapStateToProps = ({city, offers}: StateType) => ({
-  city,
-  offers,
+const mapStateToProps = (state: StateType) => ({
+  offers: getOffers(state),
+  isDataLoaded: getDataLoadedStatus(state),
+  city: getCity(state),
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
@@ -25,7 +29,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-function Main({offers, city, onDataFetch}: PropsFromRedux):JSX.Element {
+function Main({offers, isDataLoaded, city, onDataFetch}: PropsFromRedux):JSX.Element {
   const [activePlaceCard, setActivePlaceCard] = useState<number | null>(null);
 
   useEffect(() => {
@@ -52,17 +56,19 @@ function Main({offers, city, onDataFetch}: PropsFromRedux):JSX.Element {
     : <Places offers={offersByCity} city={city} activePlaceCard={activePlaceCard} onActivePlaceCardMouseEnter={handleActivePlaceCardMouseEnter} />;
 
   return (
-    <div className={mainClassName}>
-      <PageHeader />
+    <LoadWrapper isLoad={isDataLoaded}>
+      <div className={mainClassName}>
+        <PageHeader />
 
-      <main className="page__main page__main--index">
-        <h1 className="visually-hidden">Cities</h1>
-        <CitiesList city={city} />
-        <div className="cities">
-          {places}
-        </div>
-      </main>
-    </div>
+        <main className="page__main page__main--index">
+          <h1 className="visually-hidden">Cities</h1>
+          <CitiesList city={city} />
+          <div className="cities">
+            {places}
+          </div>
+        </main>
+      </div>
+    </LoadWrapper>
   );
 }
 

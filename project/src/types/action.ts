@@ -23,8 +23,8 @@ export enum ActionType {
   RequireAuthorization = 'user/requireAuthorization',
   RequireLogout = 'user/requireLogout',
   RedirectToRoute = 'app/redirectToRoute',
-  ChangeCity = 'main/changeCity',
-  ChangeSort = 'main/changeSort',
+  ChangeCity = 'app/changeCity',
+  ChangeSort = 'app/changeSort',
 }
 
 export type Actions =

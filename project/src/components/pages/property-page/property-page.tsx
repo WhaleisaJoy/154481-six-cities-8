@@ -3,6 +3,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { cardType, MAP_HEIGHT_PROPERTY_PAGE } from '../../../const';
 import { fetchCurrentOfferAction, fetchOffersNearbyAction } from '../../../store/api-action';
+import { getCurrentOffer, getCurrentOfferLoadedStatus, getOffersNearby } from '../../../store/data-reducer/selectors';
 import { ThunkAppDispatch } from '../../../types/action';
 import { StateType } from '../../../types/state';
 import Host from '../../host/host';
@@ -17,10 +18,10 @@ type ParamType = {
   id: string;
 }
 
-const mapStateToProps = ({currentOffer, isCurrentOfferLoaded, offersNearby}: StateType) => ({
-  currentOffer,
-  isCurrentOfferLoaded,
-  offersNearby,
+const mapStateToProps = (state: StateType) => ({
+  currentOffer: getCurrentOffer(state),
+  isCurrentOfferLoaded: getCurrentOfferLoadedStatus(state),
+  offersNearby: getOffersNearby(state),
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({

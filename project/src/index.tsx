@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { applyMiddleware, createStore } from 'redux';
 import App from './components/app/app';
-import { reducer } from './store/reducer';
+import { rootReducer } from './store/root-reducer';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { checkAuthAction } from './store/api-action';
 import { ThunkAppDispatch } from './types/action';
@@ -18,7 +18,7 @@ const api = createAPI(
 );
 
 const store = createStore(
-  reducer,
+  rootReducer,
   composeWithDevTools(
     applyMiddleware(thunk.withExtraArgument(api)),
     applyMiddleware(redirect),

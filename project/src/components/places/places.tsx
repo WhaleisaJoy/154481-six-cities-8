@@ -1,5 +1,6 @@
 import { connect, ConnectedProps } from 'react-redux';
 import { cardType } from '../../const';
+import { getCurrentSort } from '../../store/interface-reducer/selectors';
 import { OffersType } from '../../types/offer';
 import { StateType } from '../../types/state';
 import { sortOffers } from '../../utils';
@@ -14,8 +15,8 @@ type PlacesProps = {
   onActivePlaceCardMouseEnter: (card: number) => void;
 };
 
-const mapStateToProps = ({currentSort}: StateType) => ({
-  currentSort,
+const mapStateToProps = (state: StateType) => ({
+  currentSort: getCurrentSort(state),
 });
 
 const connector = connect(mapStateToProps);

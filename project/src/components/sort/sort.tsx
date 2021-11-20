@@ -3,11 +3,12 @@ import { connect, ConnectedProps } from 'react-redux';
 import { Dispatch } from 'redux';
 import { sortType } from '../../const';
 import { changeSort } from '../../store/action';
+import { getCurrentSort } from '../../store/interface-reducer/selectors';
 import { Actions } from '../../types/action';
 import { StateType } from '../../types/state';
 
-const mapStateToProps = ({currentSort}: StateType) => ({
-  currentSort,
+const mapStateToProps = (state: StateType) => ({
+  currentSort: getCurrentSort(state),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({

@@ -3,6 +3,8 @@ import { connect, ConnectedProps } from 'react-redux';
 import { useParams } from 'react-router';
 import { AuthorizationStatus } from '../../const';
 import { fetchCommentsAction } from '../../store/api-action';
+import { getComments } from '../../store/data-reducer/selectors';
+import { getAuthorizationStatus } from '../../store/user-reducer/selectors';
 import { ThunkAppDispatch } from '../../types/action';
 import { StateType } from '../../types/state';
 import ReviewsForm from '../reviews-form/reviews-form';
@@ -12,9 +14,9 @@ type ParamType = {
   id: string;
 }
 
-const mapStateToProps = ({authorizationStatus, comments}: StateType) => ({
-  authorizationStatus,
-  comments,
+const mapStateToProps = (state: StateType) => ({
+  authorizationStatus: getAuthorizationStatus(state),
+  comments: getComments(state),
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
