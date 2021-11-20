@@ -8,7 +8,7 @@ export const loadOffers = (offers: OffersType[]) => ({
   payload: offers,
 } as const);
 
-export const loadCurrentOffer = (currentOffer: OffersType | null) => ({
+export const loadCurrentOffer = (currentOffer: OffersType) => ({
   type: ActionType.LoadCurrentOffer,
   payload: currentOffer,
 } as const);

@@ -4,7 +4,7 @@ import { OffersType } from './offer';
 
 export type StateType = {
   offers: OffersType[],
-  currentOffer: OffersType | null,
+  currentOffer: OffersType,
   offersNearby: OffersType[],
   comments: CommentsType[],
   isDataLoaded: boolean,

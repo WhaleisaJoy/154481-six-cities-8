@@ -1,11 +1,11 @@
-import { AuthorizationStatus, SendingCommentStatus, sortType } from '../const';
+import { AuthorizationStatus, defaultOffer, SendingCommentStatus, sortType } from '../const';
 import { Cities } from '../database';
 import { Actions, ActionType } from '../types/action';
 import { StateType } from '../types/state';
 
 const initialState = {
   offers: [],
-  currentOffer: null,
+  currentOffer: defaultOffer,
   offersNearby: [],
   comments: [],
   isDataLoaded: false,

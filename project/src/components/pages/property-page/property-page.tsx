@@ -49,10 +49,6 @@ function Property({currentOffer, isCurrentOfferLoaded, offersNearby, onCurrentOf
     onOffersNearbyFetch(parseInt(id, 10));
   }, [id, onOffersNearbyFetch]);
 
-  if(currentOffer === null) {
-    return <div></div>;
-  }
-
   const { images } = currentOffer;
 
   const nearOffersWithCurrentOffer = [...offersNearby, currentOffer];
