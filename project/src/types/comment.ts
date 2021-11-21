@@ -17,9 +17,9 @@ export type CommentsServerType = {
   id: number,
   rating: number,
   user: {
-    'avatar_url': string,
+    'avatar_url'?: string,
     id: number,
-    'is_pro': boolean,
+    'is_pro'?: boolean,
     name: string,
     },
 };
