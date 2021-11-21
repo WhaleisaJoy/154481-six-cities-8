@@ -1,7 +1,8 @@
-import { connect, ConnectedProps } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { cardType } from '../../const';
+import { useActivePlaceCard } from '../../hooks/use-active-place-card';
+import { getCurrentSort } from '../../store/interface-reducer/selectors';
 import { OffersType } from '../../types/offer';
-import { StateType } from '../../types/state';
 import { sortOffers } from '../../utils';
 import Map from '../map/map';
 import PlacesList from '../places-list/places-list';
@@ -10,21 +11,14 @@ import Sort from '../sort/sort';
 type PlacesProps = {
   offers: OffersType[];
   city: string;
-  activePlaceCard: number | null;
-  onActivePlaceCardMouseEnter: (card: number) => void;
 };
 
-const mapStateToProps = ({currentSort}: StateType) => ({
-  currentSort,
-});
+function Places({offers, city}: PlacesProps): JSX.Element {
+  const currentSort = useSelector(getCurrentSort);
 
-const connector = connect(mapStateToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & PlacesProps;
-
-function Places({offers, city, activePlaceCard, onActivePlaceCardMouseEnter, currentSort}: ConnectedComponentProps): JSX.Element {
   const sortedOffers = sortOffers(offers, currentSort);
+
+  const [activePlaceCard, handleActivePlaceCardMouseEnter] = useActivePlaceCard();
 
   return (
     <div className="cities__places-container container">
@@ -35,10 +29,10 @@ function Places({offers, city, activePlaceCard, onActivePlaceCardMouseEnter, cur
         <Sort />
 
         <div className="cities__places-list places__list tabs__content">
-          <PlacesList offers={sortedOffers} currentCardType={cardType.CITIES} onActivePlaceCardMouseEnter={onActivePlaceCardMouseEnter} />
+          <PlacesList offers={sortedOffers} currentCardType={cardType.CITIES} onActivePlaceCardMouseEnter={handleActivePlaceCardMouseEnter} />
         </div>
-
       </section>
+
       <div className="cities__right-section">
         <Map offers={offers} activePlaceCard={activePlaceCard} />
       </div>
@@ -46,5 +40,4 @@ function Places({offers, city, activePlaceCard, onActivePlaceCardMouseEnter, cur
   );
 }
 
-export {Places};
-export default connector(Places);
+export default Places;

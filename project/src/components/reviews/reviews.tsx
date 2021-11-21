@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { AuthorizationStatus } from '../../const';
 import { fetchCommentsAction } from '../../store/api-action';
-import { ThunkAppDispatch } from '../../types/action';
-import { StateType } from '../../types/state';
+import { getComments } from '../../store/data-reducer/selectors';
+import { getAuthorizationStatus } from '../../store/user-reducer/selectors';
 import ReviewsForm from '../reviews-form/reviews-form';
 import ReviewsList from '../reviews-list/reviews-list';
 
@@ -12,27 +12,21 @@ type ParamType = {
   id: string;
 }
 
-const mapStateToProps = ({authorizationStatus, comments}: StateType) => ({
-  authorizationStatus,
-  comments,
-});
+function Reviews(): JSX.Element {
+  const authorizationStatus = useSelector(getAuthorizationStatus);
+  const comments = useSelector(getComments);
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onCommentsFetch(id: number) {
-    dispatch(fetchCommentsAction(id));
-  },
-});
+  const dispatch = useDispatch();
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function Reviews({authorizationStatus, comments, onCommentsFetch}: PropsFromRedux): JSX.Element {
   const { id } = useParams<ParamType>();
 
   useEffect(() => {
+    const onCommentsFetch = (idItem: number) => {
+      dispatch(fetchCommentsAction(idItem));
+    };
+
     onCommentsFetch(parseInt(id, 10));
-  }, [id, onCommentsFetch]);
+  }, [dispatch, id]);
 
   return (
     <section className="property__reviews reviews">
@@ -52,5 +46,4 @@ function Reviews({authorizationStatus, comments, onCommentsFetch}: PropsFromRedu
   );
 }
 
-export {Reviews};
-export default connector(Reviews);
+export default Reviews;

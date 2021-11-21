@@ -1,41 +1,35 @@
-import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
+import { useEffect } from 'react';
 import ReviewsRating from '../reviews-rating/reviews-rating';
 import { RatingSettings } from '../../database';
 import { postCommentAction } from '../../store/api-action';
-import { ThunkAppDispatch } from '../../types/action';
 import { CommentsDataType } from '../../types/comment';
-import { connect, ConnectedProps } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import { StateType } from '../../types/state';
 import { SendingCommentStatus } from '../../const';
 import { changeSendingCommentStatus } from '../../store/action';
+import { getSendingCommentStatus } from '../../store/data-reducer/selectors';
+import { useReviewsForm } from '../../hooks/use-reviews-form';
 
 type ParamType = {
   id: string;
 }
 
-const mapStateToProps = ({sendingCommentStatus}: StateType) => ({
-  sendingCommentStatus,
-});
+function ReviewsForm(): JSX.Element {
+  const sendingCommentStatus = useSelector(getSendingCommentStatus);
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onCommentPost(commentData: CommentsDataType) {
+  const dispatch = useDispatch();
+
+  const onCommentPost = (commentData: CommentsDataType) => {
     dispatch(postCommentAction(commentData));
-  },
-  onSendingCommentStatusChange(sendingCommentStatus: SendingCommentStatus) {
-    dispatch(changeSendingCommentStatus(sendingCommentStatus));
-  },
-});
+  };
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
+  const onSendingCommentStatusChange = (sendingCommentStatusItem: SendingCommentStatus) => {
+    dispatch(changeSendingCommentStatus(sendingCommentStatusItem));
+  };
 
-type PropsFromRedux = ConnectedProps<typeof connector>;
+  const {id} = useParams<ParamType>();
 
-function ReviewsForm({sendingCommentStatus, onSendingCommentStatusChange, onCommentPost}: PropsFromRedux): JSX.Element {
-  const [form, setForm] = useState({
-    rating: 0,
-    review: '',
-  });
+  const [form, setForm, handleSubmit, handleReviewsChange, handleRatingChange] = useReviewsForm(id, onSendingCommentStatusChange, onCommentPost);
 
   useEffect(() => {
     if(sendingCommentStatus === SendingCommentStatus.Sent) {
@@ -44,37 +38,7 @@ function ReviewsForm({sendingCommentStatus, onSendingCommentStatusChange, onComm
         review: '',
       });
     }
-  }, [sendingCommentStatus]);
-
-  const {id} = useParams<ParamType>();
-
-  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
-    evt.preventDefault();
-
-    onSendingCommentStatusChange(SendingCommentStatus.NotSent);
-
-    if(form.rating !== 0 && form.review !== '') {
-      onCommentPost({
-        id: +id,
-        comment: form.review,
-        rating: +form.rating,
-      });
-    }
-  };
-
-  const handleReviewsChange = ({target}: ChangeEvent<HTMLTextAreaElement>) => {
-    setForm({
-      ...form,
-      review: target.value,
-    });
-  };
-
-  const handleRatingChange = ({target}: ChangeEvent<HTMLInputElement>) => {
-    setForm({
-      ...form,
-      rating: +target.value,
-    });
-  };
+  }, [sendingCommentStatus, setForm]);
 
   return (
     <form
@@ -125,5 +89,4 @@ function ReviewsForm({sendingCommentStatus, onSendingCommentStatusChange, onComm
   );
 }
 
-export {ReviewsForm};
-export default connector(ReviewsForm);
+export default ReviewsForm;

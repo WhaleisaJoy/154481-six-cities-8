@@ -1,6 +1,6 @@
 export type CommentsType = {
   comment: string,
-  date: Date,
+  date: string,
   id: number,
   rating: number,
   user: {
@@ -13,13 +13,13 @@ export type CommentsType = {
 
 export type CommentsServerType = {
   comment: string,
-  date: Date,
+  date: string,
   id: number,
   rating: number,
   user: {
-    'avatar_url': string,
+    'avatar_url'?: string,
     id: number,
-    'is_pro': boolean,
+    'is_pro'?: boolean,
     name: string,
     },
 };

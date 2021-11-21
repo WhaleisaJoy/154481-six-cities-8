@@ -1,27 +1,20 @@
-import { connect, ConnectedProps } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Dispatch } from 'redux';
 import { Cities } from '../../database';
 import { changeCity } from '../../store/action';
-import { Actions } from '../../types/action';
 
 type CitiesListProps = {
   city: string;
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
-  onChooseCity(city: string) {
-    dispatch(changeCity(city));
-  },
-});
+function CitiesList(props: CitiesListProps): JSX.Element {
+  const { city } = props;
 
-const connector = connect(null, mapDispatchToProps);
+  const dispatch = useDispatch();
 
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & CitiesListProps;
-
-function CitiesList(props: ConnectedComponentProps): JSX.Element {
-  const { city, onChooseCity } = props;
+  const onChooseCity = (currentCity: string) => {
+    dispatch(changeCity(currentCity));
+  };
 
   return (
     <div className="tabs">
@@ -56,5 +49,5 @@ function CitiesList(props: ConnectedComponentProps): JSX.Element {
   );
 }
 
-export {CitiesList};
-export default connector(CitiesList);
+export default CitiesList;
+
