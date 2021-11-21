@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import PageHeader from '../../page-header/page-header';
 import CitiesList from '../../cities-list/cities-list';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,9 +18,6 @@ function Main():JSX.Element {
 
   const dispatch = useDispatch();
 
-
-  const [activePlaceCard, setActivePlaceCard] = useState<number | null>(null);
-
   useEffect(() => {
     const onDataFetch = () => {
       dispatch(fetchOfferAction());
@@ -28,10 +25,6 @@ function Main():JSX.Element {
 
     onDataFetch();
   }, [dispatch]);
-
-  function handleActivePlaceCardMouseEnter (card: number) {
-    setActivePlaceCard(card);
-  }
 
   const offersByCity = getOffersByCity(city, offers);
 
@@ -46,7 +39,7 @@ function Main():JSX.Element {
 
   const places = isEmpty
     ? <PlacesEmpty />
-    : <Places offers={offersByCity} city={city} activePlaceCard={activePlaceCard} onActivePlaceCardMouseEnter={handleActivePlaceCardMouseEnter} />;
+    : <Places offers={offersByCity} city={city} />;
 
   return (
     <LoadWrapper isLoad={isDataLoaded}>

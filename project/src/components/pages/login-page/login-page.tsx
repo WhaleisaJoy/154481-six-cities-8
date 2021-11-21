@@ -1,6 +1,7 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+// import { ChangeEvent, FormEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { useLoginForm } from '../../../hooks/use-login-form';
 import { loginAction } from '../../../store/api-action';
 import { AuthData } from '../../../types/auth-data';
 import PageHeader from '../../page-header/page-header';
@@ -12,28 +13,7 @@ function Login(): JSX.Element {
     dispatch(loginAction(authData));
   };
 
-  const [form, setForm] = useState({
-    email: '',
-    password: '',
-  });
-
-  const handleFieldChange = ({target}: ChangeEvent<HTMLInputElement>) => {
-    setForm({
-      ...form,
-      [target.name]: target.value,
-    });
-  };
-
-  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
-    evt.preventDefault();
-
-    if (form.email !== '' && form.password !== '') {
-      onSubmit({
-        login: form.email,
-        password: form.password,
-      });
-    }
-  };
+  const [form, handleFieldChange, handleSubmit] = useLoginForm(onSubmit);
 
   return (
     <div className="page page--gray page--login">

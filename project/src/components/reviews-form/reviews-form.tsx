@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
+import { useEffect } from 'react';
 import ReviewsRating from '../reviews-rating/reviews-rating';
 import { RatingSettings } from '../../database';
 import { postCommentAction } from '../../store/api-action';
@@ -8,6 +8,7 @@ import { useParams } from 'react-router';
 import { SendingCommentStatus } from '../../const';
 import { changeSendingCommentStatus } from '../../store/action';
 import { getSendingCommentStatus } from '../../store/data-reducer/selectors';
+import { useReviewsForm } from '../../hooks/use-reviews-form';
 
 type ParamType = {
   id: string;
@@ -26,10 +27,9 @@ function ReviewsForm(): JSX.Element {
     dispatch(changeSendingCommentStatus(sendingCommentStatusItem));
   };
 
-  const [form, setForm] = useState({
-    rating: 0,
-    review: '',
-  });
+  const {id} = useParams<ParamType>();
+
+  const [form, setForm, handleSubmit, handleReviewsChange, handleRatingChange] = useReviewsForm(id, onSendingCommentStatusChange, onCommentPost);
 
   useEffect(() => {
     if(sendingCommentStatus === SendingCommentStatus.Sent) {
@@ -38,37 +38,7 @@ function ReviewsForm(): JSX.Element {
         review: '',
       });
     }
-  }, [sendingCommentStatus]);
-
-  const {id} = useParams<ParamType>();
-
-  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
-    evt.preventDefault();
-
-    onSendingCommentStatusChange(SendingCommentStatus.NotSent);
-
-    if(form.rating !== 0 && form.review !== '') {
-      onCommentPost({
-        id: +id,
-        comment: form.review,
-        rating: +form.rating,
-      });
-    }
-  };
-
-  const handleReviewsChange = ({target}: ChangeEvent<HTMLTextAreaElement>) => {
-    setForm({
-      ...form,
-      review: target.value,
-    });
-  };
-
-  const handleRatingChange = ({target}: ChangeEvent<HTMLInputElement>) => {
-    setForm({
-      ...form,
-      rating: +target.value,
-    });
-  };
+  }, [sendingCommentStatus, setForm]);
 
   return (
     <form

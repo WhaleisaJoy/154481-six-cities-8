@@ -31,15 +31,11 @@ function Property(): JSX.Element {
     const onCurrentOfferFetch = (idItem: number) => {
       dispatch(fetchCurrentOfferAction(idItem));
     };
-
-    onCurrentOfferFetch(parseInt(id, 10));
-  }, [dispatch, id]);
-
-  useEffect(() => {
     const onOffersNearbyFetch = (idItem: number) => {
       dispatch(fetchOffersNearbyAction(idItem));
     };
 
+    onCurrentOfferFetch(parseInt(id, 10));
     onOffersNearbyFetch(parseInt(id, 10));
   }, [dispatch, id]);
 

@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
 import { cardType } from '../../const';
+import { useActivePlaceCard } from '../../hooks/use-active-place-card';
 import { getCurrentSort } from '../../store/interface-reducer/selectors';
 import { OffersType } from '../../types/offer';
 import { sortOffers } from '../../utils';
@@ -10,14 +11,14 @@ import Sort from '../sort/sort';
 type PlacesProps = {
   offers: OffersType[];
   city: string;
-  activePlaceCard: number | null;
-  onActivePlaceCardMouseEnter: (card: number) => void;
 };
 
-function Places({offers, city, activePlaceCard, onActivePlaceCardMouseEnter}: PlacesProps): JSX.Element {
+function Places({offers, city}: PlacesProps): JSX.Element {
   const currentSort = useSelector(getCurrentSort);
 
   const sortedOffers = sortOffers(offers, currentSort);
+
+  const [activePlaceCard, handleActivePlaceCardMouseEnter] = useActivePlaceCard();
 
   return (
     <div className="cities__places-container container">
@@ -28,10 +29,10 @@ function Places({offers, city, activePlaceCard, onActivePlaceCardMouseEnter}: Pl
         <Sort />
 
         <div className="cities__places-list places__list tabs__content">
-          <PlacesList offers={sortedOffers} currentCardType={cardType.CITIES} onActivePlaceCardMouseEnter={onActivePlaceCardMouseEnter} />
+          <PlacesList offers={sortedOffers} currentCardType={cardType.CITIES} onActivePlaceCardMouseEnter={handleActivePlaceCardMouseEnter} />
         </div>
-
       </section>
+
       <div className="cities__right-section">
         <Map offers={offers} activePlaceCard={activePlaceCard} />
       </div>
