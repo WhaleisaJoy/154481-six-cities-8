@@ -2,9 +2,17 @@ import { SendingCommentStatus } from '../../const';
 import { CommentsType } from '../../types/comment';
 import { OffersType } from '../../types/offer';
 import { StateType } from '../../types/state';
+import { getOffersByCity } from '../../utils';
 import { NameSpace } from '../root-reducer';
 
 export const getOffers = (state: StateType): OffersType[] => state[NameSpace.data].offers;
+
+export const getOffersSortedByCity = (state: StateType): OffersType[] => {
+  const offers = state[NameSpace.data].offers;
+  const city = state[NameSpace.interface].city;
+
+  return getOffersByCity(city, offers);
+};
 
 export const getCurrentOffer = (state: StateType): OffersType => state[NameSpace.data].currentOffer;
 
