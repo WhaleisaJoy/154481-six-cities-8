@@ -21,6 +21,7 @@ export enum APIRoute {
   Offers = '/hotels',
   OffersNearby = '/nearby',
   Comments = '/comments',
+  Favorite = '/favorite',
   Login = '/login',
   Logout = '/logout',
 }
@@ -81,4 +82,27 @@ export const defaultOffer: OffersType = {
   rating: 0,
   title: '',
   type: '',
+};
+
+type bookmarkType = {
+  [bookmarkInfo: string]: {
+    width: string;
+    height: string;
+  }
+}
+
+export const bookmarkInfo: bookmarkType = {
+  'place-card': {
+    width: '18',
+    height: '19',
+  },
+  'property': {
+    width: '31',
+    height: '33',
+  },
+};
+
+export const componentName = {
+  MAIN: 'MAIN',
+  PROPERTY: 'PROPERTY',
 };

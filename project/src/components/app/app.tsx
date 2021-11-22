@@ -6,24 +6,15 @@ import Property from '../pages/property-page/property-page';
 import NotFoundPage from '../pages/not-found-page/not-found-page';
 import PrivateRoute from '../private-route/private-route';
 import { AppRoute } from '../../const';
-import { StateType } from '../../types/state';
-import { connect, ConnectedProps } from 'react-redux';
+import { useSelector } from 'react-redux';
 import LoadingPage from '../pages/loading-page/loading-page';
 import { isCheckedAuth } from '../../utils';
 import browserHistory from '../../browser-history';
 import { getAuthorizationStatus } from '../../store/user-reducer/selectors';
-import { getDataLoadedStatus } from '../../store/data-reducer/selectors';
 
-const mapStateToProps = (state: StateType) => ({
-  authorizationStatus: getAuthorizationStatus(state),
-  isDataLoaded: getDataLoadedStatus(state),
-});
+function App(): JSX.Element {
+  const authorizationStatus = useSelector(getAuthorizationStatus);
 
-const connector = connect(mapStateToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function App({authorizationStatus, isDataLoaded}: PropsFromRedux): JSX.Element {
   if(isCheckedAuth(authorizationStatus)) {
     return <LoadingPage />;
   }
@@ -56,5 +47,4 @@ function App({authorizationStatus, isDataLoaded}: PropsFromRedux): JSX.Element {
   );
 }
 
-export {App};
-export default connector(App);
+export default App;

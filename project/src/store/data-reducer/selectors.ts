@@ -18,6 +18,8 @@ export const getCurrentOffer = (state: StateType): OffersType => state[NameSpace
 
 export const getOffersNearby = (state: StateType): OffersType[] => state[NameSpace.data].offersNearby;
 
+export const getOffersFavorite = (state: StateType): OffersType[] => state[NameSpace.data].offersFavorite;
+
 export const getComments = (state: StateType): CommentsType[] => state[NameSpace.data].comments;
 
 export const getDataLoadedStatus = (state: StateType): boolean => state[NameSpace.data].isDataLoaded;
