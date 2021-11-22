@@ -1,8 +1,11 @@
+import classNames from 'classnames';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchOffersFavoritesAction } from '../../../store/api-action';
 import { getOffersFavorite } from '../../../store/data-reducer/selectors';
-import FavoritesLocation from '../../favorites-location/favorites-location';
+import FavoritesListEmpty from '../../favorites-list-empty/favorites-list-empty';
+import FavoritesList from '../../favorites-list/favorites-list';
+import PageFooter from '../../page-footer/page-footer';
 import PageHeader from '../../page-header/page-header';
 
 function Favorites(): JSX.Element {
@@ -10,34 +13,33 @@ function Favorites(): JSX.Element {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    const onOffersFavoriteFetch = () => dispatch(fetchOffersFavoritesAction());
-    onOffersFavoriteFetch();
-  });
+    dispatch(fetchOffersFavoritesAction());
+  }, [dispatch]);
 
-  const cityNames = favoritesOffers.map((offer) => offer.city.name);
-  const cityNamesUnique = new Set(cityNames);
+  const isEmpty = favoritesOffers.length === 0;
+
+  const favoritesList = isEmpty
+    ? <FavoritesListEmpty />
+    : <FavoritesList offers={favoritesOffers} />;
 
   return (
     <div className="page">
       <PageHeader />
 
-      <main className="page__main page__main--favorites">
+      <main
+        className={classNames(
+          'page__main page__main--favorites',
+          {
+            'page__main--favorites-empty': isEmpty,
+          },
+        )}
+      >
         <div className="page__favorites-container container">
-          <section className="favorites">
-            <h1 className="favorites__title">Saved listing</h1>
-            <ul className="favorites__list">
-              {
-                Array.from(cityNamesUnique).map((city) => <FavoritesLocation city={city} offers={favoritesOffers} key={city} />)
-              }
-            </ul>
-          </section>
+          {favoritesList}
         </div>
       </main>
-      <footer className="footer container">
-        <a className="footer__logo-link" href="main.html">
-          <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33" />
-        </a>
-      </footer>
+
+      <PageFooter />
     </div>
   );
 }

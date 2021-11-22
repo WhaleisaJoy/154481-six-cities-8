@@ -40,6 +40,7 @@ export enum SendingCommentStatus {
 export const cardType = {
   CITIES: 'cities',
   NEAR_PLACES: 'near-places',
+  FAVORITES: 'favorites',
 };
 
 export const sortType = {

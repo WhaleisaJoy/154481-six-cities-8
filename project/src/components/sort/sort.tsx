@@ -8,10 +8,7 @@ function Sort(): JSX.Element {
   const currentSort = useSelector(getCurrentSort);
 
   const dispatch = useDispatch();
-
-  const onSortChange = (currentSortItem: string) => {
-    dispatch(changeSort(currentSortItem));
-  };
+  const onSortChange = (currentSortItem: string) => dispatch(changeSort(currentSortItem));
 
   const [isSortOptionsOpen, setSortOptionsOpen] = useState<boolean>(false);
 

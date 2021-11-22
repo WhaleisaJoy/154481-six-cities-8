@@ -11,7 +11,6 @@ function CitiesList(props: CitiesListProps): JSX.Element {
   const { city } = props;
 
   const dispatch = useDispatch();
-
   const onChooseCity = (currentCity: string) => {
     dispatch(changeCity(currentCity));
   };

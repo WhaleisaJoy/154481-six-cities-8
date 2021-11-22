@@ -69,18 +69,24 @@ export const fetchOffersFavoritesAction = (): ThunkActionResult =>
 
 export const changeFavoriteStatusAction = (id: number, status: number): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    await api.post(`${APIRoute.Favorite}/${id}/${status}`, {id, status})
-      .then(({data}) => {
-        dispatch(replaceOffer(adaptOffersToClient(data)));
-      });
+    try {
+      await api.post(`${APIRoute.Favorite}/${id}/${status}`, {id, status})
+        .then(({data}) => {
+          dispatch(replaceOffer(adaptOffersToClient(data)));
+        });
+    } catch {
+      dispatch(redirectToRoute(AppRoute.Login));
+    }
   };
 
 export const checkAuthAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    await api.get(APIRoute.Login)
-      .then(() => {
-        dispatch(requireAuthorization(AuthorizationStatus.Auth));
-      });
+    try {
+      await api.get(APIRoute.Login);
+      dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    } catch {
+      dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    }
   };
 
 export const loginAction = ({login: email, password}: AuthData): ThunkActionResult =>
@@ -93,8 +99,8 @@ export const loginAction = ({login: email, password}: AuthData): ThunkActionResu
   };
 
 export const logoutAction = (): ThunkActionResult =>
-  async (dispatch, _getState, api) => {
-    api.delete(APIRoute.Logout);
+  async (dispatch, _getState, api): Promise<void> => {
+    await api.delete(APIRoute.Logout);
     dropToken();
     dispatch(requireLogout());
   };

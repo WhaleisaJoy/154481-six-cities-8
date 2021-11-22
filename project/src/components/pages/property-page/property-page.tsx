@@ -23,16 +23,12 @@ function Property(): JSX.Element {
   const isCurrentOfferLoaded = useSelector(getCurrentOfferLoadedStatus);
   const offersNearby = useSelector(getOffersNearby);
 
-  const dispatch = useDispatch();
-
   const { id } = useParams<ParamType>();
 
+  const dispatch = useDispatch();
   useEffect(() => {
-    const onCurrentOfferFetch = (idItem: number) => dispatch(fetchCurrentOfferAction(idItem));
-    const onOffersNearbyFetch = (idItem: number) => dispatch(fetchOffersNearbyAction(idItem));
-
-    onCurrentOfferFetch(parseInt(id, 10));
-    onOffersNearbyFetch(parseInt(id, 10));
+    dispatch(fetchCurrentOfferAction(+id));
+    dispatch(fetchOffersNearbyAction(+id));
   }, [dispatch, id]);
 
   const { images } = currentOffer;
