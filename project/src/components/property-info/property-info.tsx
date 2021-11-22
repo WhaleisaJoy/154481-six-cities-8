@@ -1,16 +1,13 @@
 import { OffersType } from '../../types/offer';
 import { toPercent } from '../../utils';
+import BookmarkButton from '../bookmark-button/bookmark-button';
 
 type PropertyInfoType = {
   offer: OffersType;
 };
 
 function PropertyInfo({offer}: PropertyInfoType): JSX.Element {
-  const { isPremium, title, rating, price, goods, bedrooms, maxAdults, type, isFavorite } = offer;
-
-  const bookmarkButtonClass = isFavorite
-    ? 'property__bookmark-button property__bookmark-button--active button'
-    : 'property__bookmark-button button';
+  const { isPremium, title, rating, price, goods, bedrooms, maxAdults, type, isFavorite, id } = offer;
 
   return (
     <>
@@ -25,12 +22,7 @@ function PropertyInfo({offer}: PropertyInfoType): JSX.Element {
         <h1 className="property__name">
           {title}
         </h1>
-        <button className={bookmarkButtonClass} type="button">
-          <svg className="property__bookmark-icon" width="31" height="33">
-            <use xlinkHref="#icon-bookmark"></use>
-          </svg>
-          <span className="visually-hidden">To bookmarks</span>
-        </button>
+        <BookmarkButton id={id} isFavorite={isFavorite} bookmark={'property'} />
       </div>
 
       <div className="property__rating rating">
@@ -49,7 +41,7 @@ function PropertyInfo({offer}: PropertyInfoType): JSX.Element {
           {bedrooms} Bedrooms
         </li>
         <li className="property__feature property__feature--adults">
-                  Max {maxAdults} adults
+          Max {maxAdults} adults
         </li>
       </ul>
 

@@ -32,6 +32,20 @@ export const loadComments = createAction(
   }),
 );
 
+export const loadOffersFavorite = createAction(
+  ActionType.LoadOffersFavorite,
+  (offers: OffersType[]) => ({
+    payload: offers,
+  }),
+);
+
+export const replaceOffer = createAction(
+  ActionType.ReplaceOffer,
+  (offer: OffersType) => ({
+    payload: offer,
+  }),
+);
+
 export const changeSendingCommentStatus = createAction(
   ActionType.ChangeSendingCommentStatus,
   (sendingCommentStatus: SendingCommentStatus) => ({
@@ -43,6 +57,13 @@ export const requireAuthorization = createAction(
   ActionType.RequireAuthorization,
   (authStatus: AuthorizationStatus) => ({
     payload: authStatus,
+  }),
+);
+
+export const saveLogin = createAction(
+  ActionType.SaveLogin,
+  (login: string) => ({
+    payload: login,
   }),
 );
 

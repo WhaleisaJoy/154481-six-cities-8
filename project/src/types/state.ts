@@ -7,6 +7,7 @@ export type DataReducerType = {
   offers: OffersType[],
   currentOffer: OffersType,
   offersNearby: OffersType[],
+  offersFavorite: OffersType[],
   comments: CommentsType[],
   isDataLoaded: boolean,
   isCurrentOfferLoaded: boolean,
@@ -15,6 +16,7 @@ export type DataReducerType = {
 
 export type UserReducerType = {
   authorizationStatus: AuthorizationStatus,
+  login: string,
 };
 
 export type InterfaceReducerType = {

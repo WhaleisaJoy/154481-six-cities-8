@@ -5,7 +5,19 @@ import { ThunkActionResult } from '../types/action';
 import { AuthData } from '../types/auth-data';
 import { CommentsDataType, CommentsServerType } from '../types/comment';
 import { OfferServerType } from '../types/offer';
-import { changeSendingCommentStatus, loadComments, loadCurrentOffer, loadOffers, loadOffersNearby, redirectToRoute, requireAuthorization, requireLogout } from './action';
+import {
+  changeSendingCommentStatus,
+  loadComments,
+  loadCurrentOffer,
+  loadOffersFavorite,
+  loadOffers,
+  loadOffersNearby,
+  redirectToRoute,
+  replaceOffer,
+  requireAuthorization,
+  requireLogout,
+  saveLogin
+} from './action';
 
 export const fetchOfferAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -49,6 +61,20 @@ export const postCommentAction = ({id, comment, rating}: CommentsDataType): Thun
       .then(() => dispatch(changeSendingCommentStatus(SendingCommentStatus.Sent)));
   };
 
+export const fetchOffersFavoritesAction = (): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    const {data} = await api.get<OfferServerType[]>(`${APIRoute.Favorite}`);
+    dispatch(loadOffersFavorite(data.map(adaptOffersToClient)));
+  };
+
+export const changeFavoriteStatusAction = (id: number, status: number): ThunkActionResult =>
+  async (dispatch, _getState, api) => {
+    await api.post(`${APIRoute.Favorite}/${id}/${status}`, {id, status})
+      .then(({data}) => {
+        dispatch(replaceOffer(adaptOffersToClient(data)));
+      });
+  };
+
 export const checkAuthAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     await api.get(APIRoute.Login)
@@ -62,6 +88,7 @@ export const loginAction = ({login: email, password}: AuthData): ThunkActionResu
     const {data: {token}} = await api.post<{token: Token}>(APIRoute.Login, {email, password});
     saveToken(token);
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    dispatch(saveLogin(email));
     dispatch(redirectToRoute(AppRoute.Main));
   };
 
@@ -71,3 +98,4 @@ export const logoutAction = (): ThunkActionResult =>
     dropToken();
     dispatch(requireLogout());
   };
+

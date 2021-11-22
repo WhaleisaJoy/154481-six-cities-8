@@ -2,6 +2,7 @@ import {Link} from 'react-router-dom';
 import { cardType, MAX_RATING } from '../../const';
 import classNames from 'classnames';
 import { OffersType } from '../../types/offer';
+import BookmarkButton from '../bookmark-button/bookmark-button';
 
 type PlaceCardType = {
   offer: OffersType;
@@ -11,8 +12,6 @@ type PlaceCardType = {
 
 function PlaceCard({offer, currentCardType, onActivePlaceCardMouseEnter = () => ''}: PlaceCardType): JSX.Element {
   const { isPremium, isFavorite, previewImage, price, rating, title, type, id } = offer;
-
-  const bookmarkButtonClass = isFavorite ? 'place-card__bookmark-button place-card__bookmark-button--active button' : 'place-card__bookmark-button button';
 
   const articleClassName = classNames(
     'place-card',
@@ -62,12 +61,7 @@ function PlaceCard({offer, currentCardType, onActivePlaceCardMouseEnter = () => 
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={bookmarkButtonClass} type="button">
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            <span className="visually-hidden">To bookmarks</span>
-          </button>
+          <BookmarkButton id={id} isFavorite={isFavorite} />
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">

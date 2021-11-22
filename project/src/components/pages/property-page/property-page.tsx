@@ -28,12 +28,8 @@ function Property(): JSX.Element {
   const { id } = useParams<ParamType>();
 
   useEffect(() => {
-    const onCurrentOfferFetch = (idItem: number) => {
-      dispatch(fetchCurrentOfferAction(idItem));
-    };
-    const onOffersNearbyFetch = (idItem: number) => {
-      dispatch(fetchOffersNearbyAction(idItem));
-    };
+    const onCurrentOfferFetch = (idItem: number) => dispatch(fetchCurrentOfferAction(idItem));
+    const onOffersNearbyFetch = (idItem: number) => dispatch(fetchOffersNearbyAction(idItem));
 
     onCurrentOfferFetch(parseInt(id, 10));
     onOffersNearbyFetch(parseInt(id, 10));

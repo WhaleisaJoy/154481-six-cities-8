@@ -1,10 +1,17 @@
+import { useSelector } from 'react-redux';
 import {Link} from 'react-router-dom';
+import { AuthorizationStatus } from '../../const';
+import { getAuthorizationStatus } from '../../store/user-reducer/selectors';
+import NavLogin from '../nav-login/nav-login';
+import NavLogout from '../nav-logout/nav-logout';
 
 type PageHeaderType = {
   isNav?: boolean;
 }
 
 function PageHeader({isNav = true}: PageHeaderType): JSX.Element {
+  const authStatus = useSelector(getAuthorizationStatus);
+
   return (
     <header className="header">
       <div className="container">
@@ -16,19 +23,13 @@ function PageHeader({isNav = true}: PageHeaderType): JSX.Element {
           </div>
 
           {
-            isNav &&
-              <nav className="header__nav">
-                <ul className="header__nav-list">
-                  <li className="header__nav-item user">
-                    <Link className="header__nav-link header__nav-link--profile" to="/login">
-                      <div className="header__avatar-wrapper user__avatar-wrapper">
-                      </div>
-                      <span className="header__login">Sign in</span>
-                    </Link>
-                  </li>
-                </ul>
-              </nav>
+            isNav && authStatus === AuthorizationStatus.NoAuth && <NavLogin />
           }
+
+          {
+            isNav && authStatus === AuthorizationStatus.Auth && <NavLogout />
+          }
+
         </div>
       </div>
     </header>

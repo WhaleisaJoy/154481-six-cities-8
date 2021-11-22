@@ -1,12 +1,18 @@
-import { useSelector } from 'react-redux';
-import { getOffers } from '../../../store/data-reducer/selectors';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchOffersFavoritesAction } from '../../../store/api-action';
+import { getOffersFavorite } from '../../../store/data-reducer/selectors';
 import FavoritesLocation from '../../favorites-location/favorites-location';
 import PageHeader from '../../page-header/page-header';
 
 function Favorites(): JSX.Element {
-  const offers = useSelector(getOffers);
+  const favoritesOffers = useSelector(getOffersFavorite);
 
-  const favoritesOffers = offers.filter((offer) => offer.isFavorite);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const onOffersFavoriteFetch = () => dispatch(fetchOffersFavoritesAction());
+    onOffersFavoriteFetch();
+  });
 
   const cityNames = favoritesOffers.map((offer) => offer.city.name);
   const cityNamesUnique = new Set(cityNames);
