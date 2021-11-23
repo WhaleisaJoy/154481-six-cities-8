@@ -16,23 +16,11 @@ function Main():JSX.Element {
   const city = useSelector(getCity);
 
   const dispatch = useDispatch();
-
   useEffect(() => {
-    const onDataFetch = () => {
-      dispatch(fetchOfferAction());
-    };
-
-    onDataFetch();
+    dispatch(fetchOfferAction());
   }, [dispatch]);
 
   const isEmpty = offersByCity.length === 0;
-
-  const mainClassName = classNames(
-    'page page--gray page--main',
-    {
-      'page__main--index-empty': isEmpty,
-    },
-  );
 
   const places = isEmpty
     ? <PlacesEmpty />
@@ -40,7 +28,13 @@ function Main():JSX.Element {
 
   return (
     <LoadWrapper isLoad={isDataLoaded}>
-      <div className={mainClassName}>
+      <div className={classNames(
+        'page page--gray page--main',
+        {
+          'page__main--index-empty': isEmpty,
+        },
+      )}
+      >
         <PageHeader />
 
         <main className="page__main page__main--index">

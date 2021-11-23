@@ -18,14 +18,8 @@ function ReviewsForm(): JSX.Element {
   const sendingCommentStatus = useSelector(getSendingCommentStatus);
 
   const dispatch = useDispatch();
-
-  const onCommentPost = (commentData: CommentsDataType) => {
-    dispatch(postCommentAction(commentData));
-  };
-
-  const onSendingCommentStatusChange = (sendingCommentStatusItem: SendingCommentStatus) => {
-    dispatch(changeSendingCommentStatus(sendingCommentStatusItem));
-  };
+  const onCommentPost = (commentData: CommentsDataType) => dispatch(postCommentAction(commentData));
+  const onSendingCommentStatusChange = (sendingCommentStatusItem: SendingCommentStatus) => dispatch(changeSendingCommentStatus(sendingCommentStatusItem));
 
   const {id} = useParams<ParamType>();
 

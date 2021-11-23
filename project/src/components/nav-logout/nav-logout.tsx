@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { requireLogout } from '../../store/action';
+import { logoutAction } from '../../store/api-action';
 import { getLogin } from '../../store/user-reducer/selectors';
 
 function NavLogout(): JSX.Element {
@@ -8,7 +8,7 @@ function NavLogout(): JSX.Element {
 
   const dispatch = useDispatch();
   const handleLogout = () => {
-    dispatch(requireLogout());
+    dispatch(logoutAction());
   };
 
   return (

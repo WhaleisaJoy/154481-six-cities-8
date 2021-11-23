@@ -1,5 +1,6 @@
+import { cardType } from '../../const';
 import { OffersType } from '../../types/offer';
-import FavoritesCard from '../favorites-card/favorites-card';
+import PlaceCard from '../place-card/place-card';
 
 type FavoritesLocationType = {
   city: string;
@@ -21,7 +22,7 @@ function FavoritesLocation({city, offers}: FavoritesLocationType):JSX.Element {
 
       <div className="favorites__places">
         {
-          offersByCity.map((offer) => <FavoritesCard offer={offer} key={offer.id} />)
+          offersByCity.map((offer) => <PlaceCard offer={offer} currentCardType={cardType.FAVORITES} key={offer.id} />)
         }
       </div>
     </li>

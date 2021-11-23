@@ -1,9 +1,7 @@
 import classNames from 'classnames';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppRoute, AuthorizationStatus, bookmarkInfo } from '../../const';
-import { redirectToRoute } from '../../store/action';
+import { useDispatch } from 'react-redux';
+import { bookmarkInfo } from '../../const';
 import { changeFavoriteStatusAction } from '../../store/api-action';
-import { getAuthorizationStatus } from '../../store/user-reducer/selectors';
 
 type BookmarkButtonProps = {
   id: number;
@@ -12,16 +10,9 @@ type BookmarkButtonProps = {
 };
 
 function BookmarkButton({id, isFavorite, bookmark = 'place-card'}: BookmarkButtonProps): JSX.Element {
-  const authStatus = useSelector(getAuthorizationStatus);
-
   const dispatch = useDispatch();
-
   const handleClick = () => {
-    if (authStatus === AuthorizationStatus.Auth) {
-      dispatch(changeFavoriteStatusAction(id, Number(!isFavorite)));
-    } else {
-      dispatch(redirectToRoute(AppRoute.Login));
-    }
+    dispatch(changeFavoriteStatusAction(id, Number(!isFavorite)));
   };
 
   return (
