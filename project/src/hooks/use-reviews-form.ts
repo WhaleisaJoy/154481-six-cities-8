@@ -26,7 +26,6 @@ export const useReviewsForm = (id: string, onSendingCommentStatusChange: OnSendi
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    onSendingCommentStatusChange(SendingCommentStatus.NotSent);
     if(form.rating !== 0 && form.review !== '') {
       onCommentPost({
         id: +id,

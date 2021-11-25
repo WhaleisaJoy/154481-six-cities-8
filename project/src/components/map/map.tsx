@@ -3,7 +3,12 @@ import 'leaflet/dist/leaflet.css';
 import { useEffect, useRef } from 'react';
 import useMap from '../../hooks/useMap';
 import { OffersType } from '../../types/offer';
-import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT, MAP_HEIGHT_MAIN_PAGE } from '../../const';
+import { mapHeight } from '../../const';
+
+const markerUrl = {
+  DEFAULT: 'img/pin.svg',
+  CURRENT: 'img/pin-active.svg',
+};
 
 type MapProps = {
   activePlaceCard: number | null;
@@ -11,20 +16,20 @@ type MapProps = {
   height?: number;
 }
 
-function Map({activePlaceCard, offers, height = MAP_HEIGHT_MAIN_PAGE}: MapProps): JSX.Element {
+function Map({activePlaceCard, offers, height = mapHeight.MAIN_PAGE}: MapProps): JSX.Element {
   const cityLocation = offers[0].city.location;
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, cityLocation);
 
   const defaultMarker = L.icon({
-    iconUrl: URL_MARKER_DEFAULT,
+    iconUrl: markerUrl.DEFAULT,
     iconSize: [27, 39],
     iconAnchor: [13, 39],
   });
 
   const currentMarker = L.icon({
-    iconUrl: URL_MARKER_CURRENT,
+    iconUrl: markerUrl.CURRENT,
     iconSize: [27, 39],
     iconAnchor: [13, 39],
   });

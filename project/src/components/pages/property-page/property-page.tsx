@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { cardType, MAP_HEIGHT_PROPERTY_PAGE } from '../../../const';
+import { cardType, mapHeight } from '../../../const';
+import { dropCurrentOffer, dropOffersNearby } from '../../../store/action';
 import { fetchCurrentOfferAction, fetchOffersNearbyAction } from '../../../store/api-action';
 import { getCurrentOffer, getCurrentOfferLoadedStatus, getOffersNearby } from '../../../store/data-reducer/selectors';
 import Host from '../../host/host';
@@ -29,6 +30,11 @@ function Property(): JSX.Element {
   useEffect(() => {
     dispatch(fetchCurrentOfferAction(+id));
     dispatch(fetchOffersNearbyAction(+id));
+
+    return () => {
+      dispatch(dropCurrentOffer());
+      dispatch(dropOffersNearby());
+    };
   }, [dispatch, id]);
 
   const { images } = currentOffer;
@@ -64,7 +70,7 @@ function Property(): JSX.Element {
             </div>
 
             <section className="property__map map">
-              <Map offers={nearOffersWithCurrentOffer} activePlaceCard={currentOffer.id} height={MAP_HEIGHT_PROPERTY_PAGE} />
+              <Map offers={nearOffersWithCurrentOffer} activePlaceCard={currentOffer.id} height={mapHeight.PROPERTY_PAGE} />
             </section>
           </section>
 

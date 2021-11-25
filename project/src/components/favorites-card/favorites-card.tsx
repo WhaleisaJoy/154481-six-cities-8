@@ -1,5 +1,6 @@
-import { MAX_RATING } from '../../const';
+import classNames from 'classnames';
 import { OffersType } from '../../types/offer';
+import { toPercent } from '../../utils';
 
 type FavoritesCardType = {
   offer: OffersType;
@@ -7,9 +8,6 @@ type FavoritesCardType = {
 
 function FavoritesCard({offer}: FavoritesCardType): JSX.Element {
   const { isFavorite, previewImage, price, rating, title, type } = offer;
-
-  const bookmarkButtonClass = isFavorite ? 'place-card__bookmark-button place-card__bookmark-button--active button' : 'place-card__bookmark-button button';
-  const ratingPercentage = rating / MAX_RATING * 100;
 
   return (
     <article className="favorites__card place-card">
@@ -24,7 +22,15 @@ function FavoritesCard({offer}: FavoritesCardType): JSX.Element {
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={bookmarkButtonClass} type="button">
+          <button
+            className={classNames(
+              'place-card__bookmark-button button',
+              {
+                'place-card__bookmark-button--active': isFavorite,
+              },
+            )}
+            type="button"
+          >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
@@ -33,7 +39,7 @@ function FavoritesCard({offer}: FavoritesCardType): JSX.Element {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${ratingPercentage}%`}}></span>
+            <span style={{width: `${toPercent(rating)}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

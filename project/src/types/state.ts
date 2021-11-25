@@ -1,5 +1,6 @@
 import { AuthorizationStatus, SendingCommentStatus } from '../const';
 import { RootStateType } from '../store/root-reducer';
+import { UserAuthData } from './auth-data';
 import { CommentsType } from './comment';
 import { OffersType } from './offer';
 
@@ -16,7 +17,7 @@ export type DataReducerType = {
 
 export type UserReducerType = {
   authorizationStatus: AuthorizationStatus,
-  login: string,
+  currentUser: UserAuthData,
 };
 
 export type InterfaceReducerType = {

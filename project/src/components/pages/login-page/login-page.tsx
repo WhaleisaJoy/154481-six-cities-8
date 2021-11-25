@@ -36,7 +36,7 @@ function Login(): JSX.Element {
                   className="login__input form__input"
                   type="email"
                   name="email"
-                  value={form.email}
+                  value={form.email.value}
                   placeholder="Email"
                   required
                   onChange={handleFieldChange}
@@ -49,14 +49,20 @@ function Login(): JSX.Element {
                   className="login__input form__input"
                   type="password"
                   name="password"
-                  value={form.password}
+                  value={form.password.value}
                   placeholder="Password"
                   required
                   onChange={handleFieldChange}
                 />
               </div>
 
-              <button className="login__submit form__submit button" type="submit">Sign in</button>
+              <button
+                className="login__submit form__submit button"
+                type="submit"
+                disabled={form.email.value === '' || form.password.value === ''}
+              >
+                Sign in
+              </button>
             </form>
           </section>
 
