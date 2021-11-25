@@ -1,4 +1,7 @@
 import { ChangeEvent } from 'react';
+import { useSelector } from 'react-redux';
+import { SendingCommentStatus } from '../../const';
+import { getSendingCommentStatus } from '../../store/data-reducer/selectors';
 import { RatingSettingsType } from '../../types/types';
 
 type ReviewsRatingType = {
@@ -9,6 +12,7 @@ type ReviewsRatingType = {
 
 function ReviewsRating({settings, rating, onChange}: ReviewsRatingType): JSX.Element {
   const { value, title } = settings;
+  const sendingCommentStatus = useSelector(getSendingCommentStatus);
 
   return (
     <>
@@ -20,6 +24,7 @@ function ReviewsRating({settings, rating, onChange}: ReviewsRatingType): JSX.Ele
         type="radio"
         checked={value === rating.toString()}
         onChange={onChange}
+        disabled={sendingCommentStatus === SendingCommentStatus.Sending}
       />
 
       <label

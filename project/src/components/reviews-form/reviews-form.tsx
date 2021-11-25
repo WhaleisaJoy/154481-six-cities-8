@@ -16,6 +16,8 @@ type ParamType = {
 
 function ReviewsForm(): JSX.Element {
   const sendingCommentStatus = useSelector(getSendingCommentStatus);
+  const isSuccess = sendingCommentStatus === SendingCommentStatus.Success;
+  const isSending = sendingCommentStatus === SendingCommentStatus.Sending;
 
   const dispatch = useDispatch();
   const onCommentPost = (commentData: CommentsDataType) => dispatch(postCommentAction(commentData));
@@ -26,13 +28,14 @@ function ReviewsForm(): JSX.Element {
   const [form, setForm, handleSubmit, handleReviewsChange, handleRatingChange] = useReviewsForm(id, onSendingCommentStatusChange, onCommentPost);
 
   useEffect(() => {
-    if(sendingCommentStatus === SendingCommentStatus.Sent) {
+    if(isSuccess) {
       setForm({
         rating: 0,
         review: '',
       });
+      dispatch(changeSendingCommentStatus(SendingCommentStatus.Initial));
     }
-  }, [sendingCommentStatus, setForm]);
+  }, [dispatch, isSuccess, sendingCommentStatus, setForm]);
 
   return (
     <form
@@ -64,6 +67,7 @@ function ReviewsForm(): JSX.Element {
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={form.review}
         onChange={handleReviewsChange}
+        disabled={isSending}
       />
 
       <div className="reviews__button-wrapper">
@@ -74,7 +78,7 @@ function ReviewsForm(): JSX.Element {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={form.review === '' || form.rating === 0}
+          disabled={form.review === '' || form.rating === 0 || isSending}
         >
           Submit
         </button>

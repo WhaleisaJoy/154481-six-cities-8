@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-type ResultActivePlaceCard = [number | null, (card: number) => void];
+type ResultActivePlaceCard = [number | null, (card: number) => void, () => void];
 
 export const useActivePlaceCard = (): ResultActivePlaceCard => {
   const [activePlaceCard, setActivePlaceCard] = useState<number | null>(null);
@@ -9,5 +9,9 @@ export const useActivePlaceCard = (): ResultActivePlaceCard => {
     setActivePlaceCard(card);
   };
 
-  return [activePlaceCard, handleActivePlaceCardMouseEnter];
+  const handleActivePlaceCardMouseLeave = () => {
+    setActivePlaceCard(null);
+  };
+
+  return [activePlaceCard, handleActivePlaceCardMouseEnter, handleActivePlaceCardMouseLeave];
 };

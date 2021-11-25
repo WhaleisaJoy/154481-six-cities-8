@@ -1,10 +1,11 @@
 import { APIRoute, AppRoute, AuthorizationStatus, SendingCommentStatus } from '../const';
-import { adaptCommentsToClient, adaptOffersToClient } from '../services/adapter';
-import { dropToken, saveToken, Token } from '../services/token';
+import { adaptCommentsToClient, adaptOffersToClient, adaptUserAuthDataToClient } from '../services/adapter';
+import { dropToken, saveToken } from '../services/token';
 import { ThunkActionResult } from '../types/action';
-import { AuthData } from '../types/auth-data';
+import { AuthData, UserAuthDataServer } from '../types/auth-data';
 import { CommentsDataType, CommentsServerType } from '../types/comment';
 import { OfferServerType } from '../types/offer';
+import { toast } from 'react-toastify';
 import {
   changeSendingCommentStatus,
   loadComments,
@@ -16,8 +17,11 @@ import {
   replaceOffer,
   requireAuthorization,
   requireLogout,
-  saveLogin
+  saveCurrentUser,
+  dropCurrentUser
 } from './action';
+
+const ERROR_MESSAGE = 'An error has occurred. Try again later.';
 
 export const fetchOfferAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -56,9 +60,15 @@ export const fetchCommentsAction = (id: number): ThunkActionResult =>
 
 export const postCommentAction = ({id, comment, rating}: CommentsDataType): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    await api.post(`${APIRoute.Comments}/${id}`, {comment, rating})
-      .then(({data}) => dispatch(loadComments(data.map(adaptCommentsToClient))))
-      .then(() => dispatch(changeSendingCommentStatus(SendingCommentStatus.Sent)));
+    dispatch(changeSendingCommentStatus(SendingCommentStatus.Sending));
+    try {
+      await api.post(`${APIRoute.Comments}/${id}`, {comment, rating})
+        .then(({data}) => dispatch(loadComments(data.map(adaptCommentsToClient))))
+        .then(() => dispatch(changeSendingCommentStatus(SendingCommentStatus.Success)));
+    } catch {
+      dispatch(changeSendingCommentStatus(SendingCommentStatus.Fail));
+      toast.error(ERROR_MESSAGE);
+    }
   };
 
 export const fetchOffersFavoritesAction = (): ThunkActionResult =>
@@ -82,8 +92,9 @@ export const changeFavoriteStatusAction = (id: number, status: number): ThunkAct
 export const checkAuthAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     try {
-      await api.get(APIRoute.Login);
+      const {data} = await api.get(APIRoute.Login);
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
+      dispatch(saveCurrentUser(adaptUserAuthDataToClient(data)));
     } catch {
       dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     }
@@ -91,11 +102,17 @@ export const checkAuthAction = (): ThunkActionResult =>
 
 export const loginAction = ({login: email, password}: AuthData): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    const {data: {token}} = await api.post<{token: Token}>(APIRoute.Login, {email, password});
-    saveToken(token);
-    dispatch(requireAuthorization(AuthorizationStatus.Auth));
-    dispatch(saveLogin(email));
-    dispatch(redirectToRoute(AppRoute.Main));
+    try {
+      const {data} = await api.post<UserAuthDataServer>(APIRoute.Login, {email, password});
+      const {token} = data;
+      saveToken(token);
+      dispatch(requireAuthorization(AuthorizationStatus.Auth));
+      dispatch(saveCurrentUser(adaptUserAuthDataToClient(data)));
+      dispatch(redirectToRoute(AppRoute.Main));
+    } catch {
+      dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+      toast.error(ERROR_MESSAGE);
+    }
   };
 
 export const logoutAction = (): ThunkActionResult =>
@@ -103,5 +120,6 @@ export const logoutAction = (): ThunkActionResult =>
     await api.delete(APIRoute.Logout);
     dropToken();
     dispatch(requireLogout());
+    dispatch(dropCurrentUser());
   };
 

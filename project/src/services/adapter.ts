@@ -1,3 +1,4 @@
+import { UserAuthData, UserAuthDataServer } from '../types/auth-data';
 import { CommentsServerType, CommentsType } from '../types/comment';
 import { OfferServerType, OffersType } from '../types/offer';
 
@@ -28,7 +29,6 @@ export const adaptOffersToClient = (offer: OfferServerType): OffersType => {
 export const adaptCommentsToClient = (comment: CommentsServerType): CommentsType => {
   const adaptedComment = {
     ...comment,
-    // date: new Date(comment['date']),
     user: {
       ...comment.user,
       avatarUrl: comment.user['avatar_url'],
@@ -42,3 +42,15 @@ export const adaptCommentsToClient = (comment: CommentsServerType): CommentsType
   return adaptedComment as CommentsType;
 };
 
+export const adaptUserAuthDataToClient = (user: UserAuthDataServer): UserAuthData => {
+  const adaptedData = {
+    ...user,
+    avatarUrl: user['avatar_url'],
+    isPro: user['is_pro'],
+  };
+
+  delete adaptedData['avatar_url'];
+  delete adaptedData['is_pro'];
+
+  return adaptedData as UserAuthData;
+};

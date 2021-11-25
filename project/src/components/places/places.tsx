@@ -18,7 +18,7 @@ function Places({offers, city}: PlacesProps): JSX.Element {
 
   const sortedOffers = sortOffers(offers, currentSort);
 
-  const [activePlaceCard, handleActivePlaceCardMouseEnter] = useActivePlaceCard();
+  const [activePlaceCard, handleActivePlaceCardMouseEnter, handleActivePlaceCardMouseLeave] = useActivePlaceCard();
 
   return (
     <div className="cities__places-container container">
@@ -29,7 +29,12 @@ function Places({offers, city}: PlacesProps): JSX.Element {
         <Sort />
 
         <div className="cities__places-list places__list tabs__content">
-          <PlacesList offers={sortedOffers} currentCardType={cardType.CITIES} onActivePlaceCardMouseEnter={handleActivePlaceCardMouseEnter} />
+          <PlacesList
+            offers={sortedOffers}
+            currentCardType={cardType.CITIES}
+            onActivePlaceCardMouseEnter={handleActivePlaceCardMouseEnter}
+            onActivePlaceCardMouseLeave={handleActivePlaceCardMouseLeave}
+          />
         </div>
       </section>
 

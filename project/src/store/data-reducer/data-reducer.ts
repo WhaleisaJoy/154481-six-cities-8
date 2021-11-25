@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { defaultOffer, SendingCommentStatus } from '../../const';
 import { DataReducerType } from '../../types/state';
-import { changeSendingCommentStatus, loadComments, loadCurrentOffer, loadOffers, loadOffersFavorite, loadOffersNearby, replaceOffer } from '../action';
+import { changeSendingCommentStatus, dropCurrentOffer, dropOffersNearby, loadComments, loadCurrentOffer, loadOffers, loadOffersFavorite, loadOffersNearby, replaceOffer } from '../action';
 
 const initialState: DataReducerType = {
   offers: [],
@@ -11,7 +11,7 @@ const initialState: DataReducerType = {
   comments: [],
   isDataLoaded: false,
   isCurrentOfferLoaded: false,
-  sendingCommentStatus: SendingCommentStatus.NotSent,
+  sendingCommentStatus: SendingCommentStatus.Initial,
 };
 
 const dataReducer = createReducer(initialState, (builder) => {
@@ -24,8 +24,15 @@ const dataReducer = createReducer(initialState, (builder) => {
       state.currentOffer = action.payload;
       state.isCurrentOfferLoaded = true;
     })
+    .addCase(dropCurrentOffer, (state) => {
+      state.currentOffer = defaultOffer;
+      state.isCurrentOfferLoaded = false;
+    })
     .addCase(loadOffersNearby, (state, action) => {
       state.offersNearby = action.payload;
+    })
+    .addCase(dropOffersNearby, (state) => {
+      state.offersNearby = [];
     })
     .addCase(loadOffersFavorite, (state, action) => {
       state.offersFavorite = action.payload;
@@ -35,10 +42,21 @@ const dataReducer = createReducer(initialState, (builder) => {
     })
     .addCase(replaceOffer, (state, action) => {
       const modifiedOffer = action.payload;
-      const index = state.offers.findIndex((offer) => offer.id === modifiedOffer.id);
 
-      if ( index !== -1 ) {
-        state.offers[index].isFavorite = modifiedOffer.isFavorite;
+      const fitFromOffers = state.offers.find((offer) => offer.id === modifiedOffer.id);
+      const fitFromOffersNearby = state.offersNearby.find((offer) => offer.id === modifiedOffer.id);
+      const fitFromOffersFavorite = state.offersFavorite.find((offer) => offer.id === modifiedOffer.id);
+
+      if (fitFromOffers) {
+        fitFromOffers.isFavorite = modifiedOffer.isFavorite;
+      }
+
+      if (fitFromOffersNearby) {
+        fitFromOffersNearby.isFavorite = modifiedOffer.isFavorite;
+      }
+
+      if (fitFromOffersFavorite) {
+        state.offersFavorite = state.offersFavorite.filter((offer) => offer.id !== fitFromOffersFavorite.id);
       }
 
       if (state.currentOffer !== defaultOffer) {

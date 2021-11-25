@@ -1,29 +1,30 @@
-import { SendingCommentStatus } from '../../const';
+import { MAX_REVIEWS_LENGTH, SendingCommentStatus } from '../../const';
 import { CommentsType } from '../../types/comment';
 import { OffersType } from '../../types/offer';
 import { StateType } from '../../types/state';
-import { getOffersByCity } from '../../utils';
+import { getOffersByCity, sortCommentsByDate } from '../../utils';
 import { NameSpace } from '../root-reducer';
 
-export const getOffers = (state: StateType): OffersType[] => state[NameSpace.data].offers;
-
 export const getOffersSortedByCity = (state: StateType): OffersType[] => {
-  const offers = state[NameSpace.data].offers;
-  const city = state[NameSpace.interface].city;
+  const offers = state[NameSpace.Data].offers;
+  const city = state[NameSpace.Interface].city;
 
   return getOffersByCity(city, offers);
 };
 
-export const getCurrentOffer = (state: StateType): OffersType => state[NameSpace.data].currentOffer;
+export const getCurrentOffer = (state: StateType): OffersType => state[NameSpace.Data].currentOffer;
 
-export const getOffersNearby = (state: StateType): OffersType[] => state[NameSpace.data].offersNearby;
+export const getOffersNearby = (state: StateType): OffersType[] => state[NameSpace.Data].offersNearby;
 
-export const getOffersFavorite = (state: StateType): OffersType[] => state[NameSpace.data].offersFavorite;
+export const getOffersFavorite = (state: StateType): OffersType[] => state[NameSpace.Data].offersFavorite;
 
-export const getComments = (state: StateType): CommentsType[] => state[NameSpace.data].comments;
+export const getComments = (state: StateType): CommentsType[] => {
+  const comments = [...state[NameSpace.Data].comments].sort(sortCommentsByDate);
+  return comments.slice(0, MAX_REVIEWS_LENGTH);
+};
 
-export const getDataLoadedStatus = (state: StateType): boolean => state[NameSpace.data].isDataLoaded;
+export const getDataLoadedStatus = (state: StateType): boolean => state[NameSpace.Data].isDataLoaded;
 
-export const getCurrentOfferLoadedStatus = (state: StateType): boolean => state[NameSpace.data].isCurrentOfferLoaded;
+export const getCurrentOfferLoadedStatus = (state: StateType): boolean => state[NameSpace.Data].isCurrentOfferLoaded;
 
-export const getSendingCommentStatus = (state: StateType): SendingCommentStatus => state[NameSpace.data].sendingCommentStatus;
+export const getSendingCommentStatus = (state: StateType): SendingCommentStatus => state[NameSpace.Data].sendingCommentStatus;

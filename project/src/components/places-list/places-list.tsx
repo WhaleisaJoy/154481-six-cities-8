@@ -5,9 +5,10 @@ type PlaceListType = {
   offers: OffersType[];
   currentCardType: string;
   onActivePlaceCardMouseEnter?: (card: number) => void;
+  onActivePlaceCardMouseLeave?: () => void;
 }
 
-function PlacesList({offers, currentCardType, onActivePlaceCardMouseEnter}: PlaceListType): JSX.Element {
+function PlacesList({offers, currentCardType, onActivePlaceCardMouseEnter, onActivePlaceCardMouseLeave}: PlaceListType): JSX.Element {
   return (
     <>
       {
@@ -16,6 +17,7 @@ function PlacesList({offers, currentCardType, onActivePlaceCardMouseEnter}: Plac
             offer={offer}
             currentCardType={currentCardType}
             onActivePlaceCardMouseEnter={onActivePlaceCardMouseEnter}
+            onActivePlaceCardMouseLeave={onActivePlaceCardMouseLeave}
             key={offer.id}
           />
         ))

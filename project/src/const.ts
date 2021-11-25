@@ -2,11 +2,12 @@ import { OffersType } from './types/offer';
 
 export const MAX_RATING = 5;
 
-export const URL_MARKER_DEFAULT = 'img/pin.svg';
-export const URL_MARKER_CURRENT = 'img/pin-active.svg';
+export const MAX_REVIEWS_LENGTH = 10;
 
-export const MAP_HEIGHT_MAIN_PAGE = 752;
-export const MAP_HEIGHT_PROPERTY_PAGE = 579;
+export const mapHeight = {
+  MAIN_PAGE: 752,
+  PROPERTY_PAGE: 579,
+};
 
 export enum AppRoute {
   Root = '/',
@@ -33,8 +34,10 @@ export enum AuthorizationStatus {
 }
 
 export enum SendingCommentStatus {
-  Sent = 'SENT',
-  NotSent = 'NOT_SENT',
+  Initial = 'INITIAL',
+  Sending = 'SENDING',
+  Success = 'SUCCESS',
+  Fail = 'FAIL',
 }
 
 export const cardType = {
@@ -92,6 +95,15 @@ type bookmarkType = {
   }
 }
 
+export const defaultUser = {
+  avatarUrl: '',
+  email: '',
+  id: 0,
+  isPro: false,
+  name: '',
+  token: '',
+};
+
 export const bookmarkInfo: bookmarkType = {
   'place-card': {
     width: '18',
@@ -103,7 +115,3 @@ export const bookmarkInfo: bookmarkType = {
   },
 };
 
-export const componentName = {
-  MAIN: 'MAIN',
-  PROPERTY: 'PROPERTY',
-};

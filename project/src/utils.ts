@@ -1,4 +1,5 @@
 import { AuthorizationStatus, MAX_RATING, sortType } from './const';
+import { CommentsType } from './types/comment';
 import { OffersType } from './types/offer';
 
 export const toPercent = (num: number): number => Math.round(num) / MAX_RATING * 100;
@@ -18,10 +19,11 @@ export const sortOffers = (offers: OffersType[], sort: string): OffersType[] => 
   }
 };
 
-export const sortByPriceToHigh = (a: OffersType, b: OffersType): number => (a.price - b.price);
+export const sortByPriceToHigh = (a: OffersType, b: OffersType): number => a.price - b.price;
+export const sortByPriceToLow = (a: OffersType, b: OffersType): number => b.price - a.price;
+export const sortByRatingToLow = (a: OffersType, b: OffersType): number => b.rating - a.rating;
 
-export const sortByPriceToLow = (a: OffersType, b: OffersType): number => (b.price - a.price);
-
-export const sortByRatingToLow = (a: OffersType, b: OffersType): number => (b.rating - a.rating);
+export const sortCommentsByDate = (a: CommentsType, b: CommentsType): number => new Date(b.date).getTime() - new Date(a.date).getTime();
 
 export const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean => authorizationStatus === AuthorizationStatus.Unknown;
+

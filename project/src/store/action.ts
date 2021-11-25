@@ -1,6 +1,7 @@
 import { createAction } from '@reduxjs/toolkit';
 import { AppRoute, AuthorizationStatus, SendingCommentStatus } from '../const';
 import { ActionType } from '../types/action';
+import { UserAuthData } from '../types/auth-data';
 import { CommentsType } from '../types/comment';
 import { OffersType } from '../types/offer';
 
@@ -18,12 +19,16 @@ export const loadCurrentOffer = createAction(
   }),
 );
 
+export const dropCurrentOffer = createAction(ActionType.DropCurrentOffer);
+
 export const loadOffersNearby = createAction(
   ActionType.LoadOffersNearby,
   (offers: OffersType[]) => ({
     payload: offers,
   }),
 );
+
+export const dropOffersNearby = createAction(ActionType.DropOffersNearby);
 
 export const loadComments = createAction(
   ActionType.LoadComments,
@@ -60,12 +65,14 @@ export const requireAuthorization = createAction(
   }),
 );
 
-export const saveLogin = createAction(
-  ActionType.SaveLogin,
-  (login: string) => ({
-    payload: login,
+export const saveCurrentUser = createAction(
+  ActionType.SaveCurrentUser,
+  (user: UserAuthData) => ({
+    payload: user,
   }),
 );
+
+export const dropCurrentUser = createAction(ActionType.DropCurrentUser);
 
 export const requireLogout = createAction(ActionType.RequireLogout);
 

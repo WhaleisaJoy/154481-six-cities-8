@@ -4,15 +4,15 @@ import { interfaceReducer } from './interface-reducer/interface-reducer';
 import { userReducer } from './user-reducer/user-reducer';
 
 export enum NameSpace {
-  data = 'DATA',
-  user = 'USER',
-  interface = 'INTERFACE',
+  Data = 'DATA',
+  User = 'USER',
+  Interface = 'INTERFACE',
 }
 
 export const rootReducer = combineReducers({
-  [NameSpace.data]: dataReducer,
-  [NameSpace.user]: userReducer,
-  [NameSpace.interface]: interfaceReducer,
+  [NameSpace.Data]: dataReducer,
+  [NameSpace.User]: userReducer,
+  [NameSpace.Interface]: interfaceReducer,
 });
 
 export type RootStateType = ReturnType<typeof rootReducer>;

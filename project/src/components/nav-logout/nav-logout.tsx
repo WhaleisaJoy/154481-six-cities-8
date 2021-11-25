@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { logoutAction } from '../../store/api-action';
-import { getLogin } from '../../store/user-reducer/selectors';
+import { getUserEmail } from '../../store/user-reducer/selectors';
 
 function NavLogout(): JSX.Element {
-  const login = useSelector(getLogin);
+  const email = useSelector(getUserEmail);
 
   const dispatch = useDispatch();
   const handleLogout = () => {
@@ -18,7 +18,7 @@ function NavLogout(): JSX.Element {
           <Link className="header__nav-link header__nav-link--profile" to="/favorites">
             <div className="header__avatar-wrapper user__avatar-wrapper">
             </div>
-            <span className="header__user-name user__name">{login}</span>
+            <span className="header__user-name user__name">{email}</span>
           </Link>
         </li>
         <li className="header__nav-item">

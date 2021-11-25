@@ -1,13 +1,15 @@
 import {Link} from 'react-router-dom';
-import { cardType, MAX_RATING } from '../../const';
+import { cardType } from '../../const';
 import classNames from 'classnames';
 import { OffersType } from '../../types/offer';
 import BookmarkButton from '../bookmark-button/bookmark-button';
+import { toPercent } from '../../utils';
 
 type PlaceCardType = {
   offer: OffersType;
   currentCardType: string;
   onActivePlaceCardMouseEnter?: (card: number) => void;
+  onActivePlaceCardMouseLeave?: () => void;
 };
 
 const previewSize = {
@@ -25,10 +27,10 @@ const previewSize = {
   },
 };
 
-function PlaceCard({offer, currentCardType, onActivePlaceCardMouseEnter = () => ''}: PlaceCardType): JSX.Element {
+function PlaceCard({offer, currentCardType, onActivePlaceCardMouseEnter = () => '', onActivePlaceCardMouseLeave = () => ''}: PlaceCardType): JSX.Element {
   const { isPremium, isFavorite, previewImage, price, rating, title, type, id } = offer;
 
-  const mouseEnterHandler = () => {
+  const handleMouseEnter = () => {
     onActivePlaceCardMouseEnter(id);
   };
 
@@ -42,7 +44,8 @@ function PlaceCard({offer, currentCardType, onActivePlaceCardMouseEnter = () => 
           'favorites__card': currentCardType === cardType.FAVORITES,
         },
       )}
-      onMouseEnter={mouseEnterHandler}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={onActivePlaceCardMouseLeave}
     >
 
       {
@@ -93,7 +96,7 @@ function PlaceCard({offer, currentCardType, onActivePlaceCardMouseEnter = () => 
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
             <span
-              style={{width: `${rating / MAX_RATING * 100}%`}}
+              style={{width: `${toPercent(rating)}%`}}
             >
             </span>
             <span className="visually-hidden">Rating</span>
