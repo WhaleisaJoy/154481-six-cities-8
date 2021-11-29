@@ -1,4 +1,4 @@
-import { Router as BrowserRouter, Switch, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import Main from '../pages/main-page/main-page';
 import Login from '../pages/login-page/login-page';
 import Favorites from '../pages/favorites-page/favorites-page';
@@ -9,7 +9,6 @@ import { AppRoute } from '../../const';
 import { useSelector } from 'react-redux';
 import LoadingPage from '../pages/loading-page/loading-page';
 import { isCheckedAuth } from '../../utils';
-import browserHistory from '../../browser-history';
 import { getAuthorizationStatus } from '../../store/user-reducer/selectors';
 
 function App(): JSX.Element {
@@ -20,30 +19,28 @@ function App(): JSX.Element {
   }
 
   return (
-    <BrowserRouter history={browserHistory}>
-      <Switch>
-        <Route exact path={[AppRoute.Root, AppRoute.Main]}>
-          <Main />
-        </Route>
-        <Route exact path={AppRoute.Login}>
-          <Login />
-        </Route>
-        <PrivateRoute
-          exact
-          path={AppRoute.Favorites}
-          render={() => (
-            <Favorites />
-          )}
-        >
-        </PrivateRoute>
-        <Route exact path={AppRoute.Room}>
-          <Property />
-        </Route>
-        <Route>
-          <NotFoundPage />
-        </Route>
-      </Switch>
-    </BrowserRouter>
+    <Switch>
+      <Route exact path={[AppRoute.Root, AppRoute.Main]}>
+        <Main />
+      </Route>
+      <Route exact path={AppRoute.Login}>
+        <Login />
+      </Route>
+      <PrivateRoute
+        exact
+        path={AppRoute.Favorites}
+        render={() => (
+          <Favorites />
+        )}
+      >
+      </PrivateRoute>
+      <Route exact path={AppRoute.Room}>
+        <Property />
+      </Route>
+      <Route>
+        <NotFoundPage />
+      </Route>
+    </Switch>
   );
 }
 

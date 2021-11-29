@@ -65,6 +65,7 @@ function Map({activePlaceCard, offers, height = mapHeight.MAIN_PAGE}: MapProps):
       className="cities__map map"
       style={{height: `${height}px`}}
       ref={mapRef}
+      data-testid='map'
     >
     </section>
   );

@@ -60,11 +60,11 @@ export const fetchCommentsAction = (id: number): ThunkActionResult =>
 
 export const postCommentAction = ({id, comment, rating}: CommentsDataType): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    dispatch(changeSendingCommentStatus(SendingCommentStatus.Sending));
     try {
-      await api.post(`${APIRoute.Comments}/${id}`, {comment, rating})
-        .then(({data}) => dispatch(loadComments(data.map(adaptCommentsToClient))))
-        .then(() => dispatch(changeSendingCommentStatus(SendingCommentStatus.Success)));
+      dispatch(changeSendingCommentStatus(SendingCommentStatus.Sending));
+      const {data} = await api.post(`${APIRoute.Comments}/${id}`, {comment, rating});
+      dispatch(loadComments(data.map(adaptCommentsToClient)));
+      dispatch(changeSendingCommentStatus(SendingCommentStatus.Success));
     } catch {
       dispatch(changeSendingCommentStatus(SendingCommentStatus.Fail));
       toast.error(ERROR_MESSAGE);

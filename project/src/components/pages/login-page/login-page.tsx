@@ -31,11 +31,12 @@ function Login(): JSX.Element {
               onSubmit={handleSubmit}
             >
               <div className="login__input-wrapper form__input-wrapper">
-                <label className="visually-hidden">E-mail</label>
+                <label className="visually-hidden" htmlFor="email">E-mail</label>
                 <input
                   className="login__input form__input"
                   type="email"
                   name="email"
+                  id="email"
                   value={form.email.value}
                   placeholder="Email"
                   required
@@ -44,11 +45,12 @@ function Login(): JSX.Element {
               </div>
 
               <div className="login__input-wrapper form__input-wrapper">
-                <label className="visually-hidden">Password</label>
+                <label className="visually-hidden" htmlFor="password">Password</label>
                 <input
                   className="login__input form__input"
                   type="password"
                   name="password"
+                  id="password"
                   value={form.password.value}
                   placeholder="Password"
                   required
