@@ -1,13 +1,13 @@
 import { createAPI } from '../services/api';
-import { makeFakeServerUser, makeFakeServerComment, makeFakeServerOffer, makeFakeAuthData, makeFakeDataComment } from '../utils/mock';
+import { makeFakeServerUser, makeFakeServerComment, makeFakeServerOffer, makeFakeAuthData, makeFakeDataComment, makeFakeOffer } from '../utils/mock';
 import MockAdapter from 'axios-mock-adapter';
 import thunk, {ThunkDispatch} from 'redux-thunk';
 import {configureMockStore} from '@jedmao/redux-mock-store';
 import { StateType } from '../types/state';
 import { Action } from 'redux';
 import { APIRoute, AppRoute, AuthorizationStatus, SendingCommentStatus } from '../const';
-import { checkAuthAction, fetchCommentsAction, fetchCurrentOfferAction, fetchOfferAction, fetchOffersNearbyAction, loginAction, logoutAction, postCommentAction } from './api-action';
-import { changeSendingCommentStatus, dropCurrentUser, loadComments, loadCurrentOffer, loadOffers, loadOffersNearby, redirectToRoute, requireAuthorization, requireLogout, saveCurrentUser } from './action';
+import { changeFavoriteStatusAction, checkAuthAction, fetchCommentsAction, fetchCurrentOfferAction, fetchOfferAction, fetchOffersFavoritesAction, fetchOffersNearbyAction, loginAction, logoutAction, postCommentAction } from './api-action';
+import { changeSendingCommentStatus, dropCurrentUser, loadComments, loadCurrentOffer, loadOffers, loadOffersFavorite, loadOffersNearby, redirectToRoute, replaceOffer, requireAuthorization, requireLogout, saveCurrentUser } from './action';
 import { adaptCommentsToClient, adaptOffersToClient, adaptUserAuthDataToClient } from '../services/adapter';
 
 const mockServerOffers = [makeFakeServerOffer()];
@@ -84,6 +84,34 @@ describe('Reducer: userReducer', () => {
     const adaptedData = mockServerComments.map(adaptCommentsToClient);
     expect(store.getActions()).toEqual([
       loadComments(adaptedData),
+    ]);
+  });
+
+  it('should dispatch loadOffersFavorite when GET /favorite', async () => {
+    mockAPI
+      .onGet(`${APIRoute.Favorite}`)
+      .reply(200, mockServerOffers);
+
+    const store = mockStore();
+    await store.dispatch(fetchOffersFavoritesAction());
+
+    const adaptedData = mockServerOffers.map(adaptOffersToClient);
+    expect(store.getActions()).toEqual([
+      loadOffersFavorite(adaptedData),
+    ]);
+  });
+
+  it('should dispatch replaceOffer when POST /favorite/: hotel_id/: status', async () => {
+    const fakeOffer = makeFakeOffer();
+    const store = mockStore();
+    mockAPI
+      .onPost(`${APIRoute.Favorite}/${fakeOffer.id}/${Number(!fakeOffer.isFavorite)}`)
+      .reply(200, mockServerOffer);
+
+    await store.dispatch(changeFavoriteStatusAction(fakeOffer.id, Number(!fakeOffer.isFavorite)));
+
+    expect(store.getActions()).toEqual([
+      replaceOffer(adaptOffersToClient(mockServerOffer)),
     ]);
   });
 
