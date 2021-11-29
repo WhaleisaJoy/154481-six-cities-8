@@ -1,20 +1,20 @@
 import { createAPI } from '../services/api';
-import { makeFakeDataComment, makeFakeServerUser, makeFakeServerComment, makeFakeServerOffer, makeFakeAuthData } from '../utils/mock';
+import { makeFakeServerUser, makeFakeServerComment, makeFakeServerOffer, makeFakeAuthData } from '../utils/mock';
 import MockAdapter from 'axios-mock-adapter';
 import thunk, {ThunkDispatch} from 'redux-thunk';
 import {configureMockStore} from '@jedmao/redux-mock-store';
 import { StateType } from '../types/state';
 import { Action } from 'redux';
-import { APIRoute, AppRoute, AuthorizationStatus, SendingCommentStatus } from '../const';
-import { checkAuthAction, fetchCommentsAction, fetchCurrentOfferAction, fetchOfferAction, fetchOffersFavoritesAction, fetchOffersNearbyAction, loginAction, logoutAction, postCommentAction } from './api-action';
-import { changeSendingCommentStatus, dropCurrentUser, loadComments, loadCurrentOffer, loadOffers, loadOffersFavorite, loadOffersNearby, redirectToRoute, requireAuthorization, requireLogout, saveCurrentUser } from './action';
+import { APIRoute, AppRoute, AuthorizationStatus } from '../const';
+import { checkAuthAction, fetchCommentsAction, fetchCurrentOfferAction, fetchOfferAction, fetchOffersFavoritesAction, fetchOffersNearbyAction, loginAction, logoutAction } from './api-action';
+import { dropCurrentUser, loadComments, loadCurrentOffer, loadOffers, loadOffersFavorite, loadOffersNearby, redirectToRoute, requireAuthorization, requireLogout, saveCurrentUser } from './action';
 import { adaptCommentsToClient, adaptOffersToClient, adaptUserAuthDataToClient } from '../services/adapter';
 
 const mockServerOffers = [makeFakeServerOffer()];
 const mockServerOffer = makeFakeServerOffer();
 const mockServerComments = [makeFakeServerComment()];
 // const mockServerComment = makeFakeServerComment();
-const mockDataComment = makeFakeDataComment();
+// const mockDataComment = makeFakeDataComment();
 const mockServerUser = makeFakeServerUser();
 const mockAuthData = makeFakeAuthData();
 const ID = 1;
