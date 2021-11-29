@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { cardType } from '../../const';
 import { OffersType } from '../../types/offer';
 import PlaceCard from '../place-card/place-card';
@@ -14,9 +15,9 @@ function FavoritesLocation({city, offers}: FavoritesLocationType):JSX.Element {
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
         <div className="locations__item">
-          <a className="locations__item-link" href="/">
+          <Link className="locations__item-link" to="/">
             <span>{city}</span>
-          </a>
+          </Link>
         </div>
       </div>
 
