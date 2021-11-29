@@ -41,6 +41,7 @@ describe('Component: PageHeader', () => {
 
     expect(screen.getByRole('link')).toBeInTheDocument();
     expect(screen.getByRole('link')).toHaveClass('header__logo-link');
+    expect(screen.queryByText(/Sign in/i)).not.toBeInTheDocument();
     expect(screen.getByAltText(/6 cities logo/i)).toBeInTheDocument();
   });
 

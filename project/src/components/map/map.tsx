@@ -5,9 +5,9 @@ import useMap from '../../hooks/useMap';
 import { OffersType } from '../../types/offer';
 import { mapHeight } from '../../const';
 
-const markerUrl = {
-  DEFAULT: 'img/pin.svg',
-  CURRENT: 'img/pin-active.svg',
+const MarkerUrl = {
+  Default: 'img/pin.svg',
+  Current: 'img/pin-active.svg',
 };
 
 type MapProps = {
@@ -23,13 +23,13 @@ function Map({activePlaceCard, offers, height = mapHeight.MAIN_PAGE}: MapProps):
   const map = useMap(mapRef, cityLocation);
 
   const defaultMarker = L.icon({
-    iconUrl: markerUrl.DEFAULT,
+    iconUrl: MarkerUrl.Default,
     iconSize: [27, 39],
     iconAnchor: [13, 39],
   });
 
   const currentMarker = L.icon({
-    iconUrl: markerUrl.CURRENT,
+    iconUrl: MarkerUrl.Current,
     iconSize: [27, 39],
     iconAnchor: [13, 39],
   });

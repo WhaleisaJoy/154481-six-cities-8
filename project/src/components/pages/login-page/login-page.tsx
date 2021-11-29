@@ -1,18 +1,80 @@
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { useLoginForm } from '../../../hooks/use-login-form';
 import { loginAction } from '../../../store/api-action';
 import { AuthData } from '../../../types/auth-data';
 import PageHeader from '../../page-header/page-header';
+import { ChangeEvent, FormEvent, useState } from 'react';
+import { getRandomInteger } from '../../../utils';
+import { Cities } from '../../../database';
+import { changeCity } from '../../../store/action';
+
+type FieldType = {
+  value: string;
+  isValid: boolean;
+  errorMessage: string;
+  regExp: RegExp;
+};
+
+type FormType = {
+  [key: string]: FieldType;
+};
 
 function Login(): JSX.Element {
   const dispatch = useDispatch();
+
+  const cities = Object.values(Cities);
+  const randomCity = cities[getRandomInteger(0, cities.length-1)];
+
+  const onClickRandomCity = () => dispatch(changeCity(randomCity));
 
   const onSubmit = (authData: AuthData) => {
     dispatch(loginAction(authData));
   };
 
-  const [form, handleFieldChange, handleSubmit] = useLoginForm(onSubmit);
+  const [form, setForm] = useState<FormType>({
+    email: {
+      value: '',
+      isValid: false,
+      errorMessage: 'Please enter a valid email address',
+      regExp: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+    },
+    password: {
+      value: '',
+      isValid: false,
+      errorMessage: 'Password must contain at least 1 letter and 1 number',
+      regExp: /^(?=.*\d)(?=.*\D)[A-Za-z0-9]{2,}$/,
+    },
+  });
+
+  const handleFieldChange = ({target}: ChangeEvent<HTMLInputElement>) => {
+    const checkValidity = Boolean(target.value.match(form[target.name].regExp));
+
+    if (!checkValidity) {
+      target.setCustomValidity(form[target.name].errorMessage);
+    } else {
+      target.setCustomValidity('');
+    }
+
+    setForm({
+      ...form,
+      [target.name]: {
+        ...form[target.name],
+        value: target.value,
+        isValid: checkValidity,
+      },
+    });
+  };
+
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+
+    if (form.email.value !== '' && form.password.value !== '') {
+      onSubmit({
+        login: form.email.value,
+        password: form.password.value,
+      });
+    }
+  };
 
   return (
     <div className="page page--gray page--login">
@@ -70,8 +132,12 @@ function Login(): JSX.Element {
 
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link className="locations__item-link" to="/">
-                <span>Amsterdam</span>
+              <Link
+                className="locations__item-link"
+                to="/"
+                onClick={onClickRandomCity}
+              >
+                <span>{randomCity}</span>
               </Link>
             </div>
           </section>

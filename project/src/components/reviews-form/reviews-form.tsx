@@ -8,7 +8,7 @@ import { useParams } from 'react-router';
 import { SendingCommentStatus } from '../../const';
 import { changeSendingCommentStatus } from '../../store/action';
 import { getSendingCommentStatus } from '../../store/data-reducer/selectors';
-import { useReviewsForm } from '../../hooks/use-reviews-form';
+import { ChangeEvent, FormEvent, useState } from 'react';
 
 type ParamType = {
   id: string;
@@ -21,11 +21,38 @@ function ReviewsForm(): JSX.Element {
 
   const dispatch = useDispatch();
   const onCommentPost = (commentData: CommentsDataType) => dispatch(postCommentAction(commentData));
-  const onSendingCommentStatusChange = (sendingCommentStatusItem: SendingCommentStatus) => dispatch(changeSendingCommentStatus(sendingCommentStatusItem));
 
   const {id} = useParams<ParamType>();
 
-  const [form, setForm, handleSubmit, handleReviewsChange, handleRatingChange] = useReviewsForm(id, onSendingCommentStatusChange, onCommentPost);
+  const [form, setForm] = useState({
+    rating: 0,
+    review: '',
+  });
+
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    if(form.rating !== 0 && form.review !== '') {
+      onCommentPost({
+        id: +id,
+        comment: form.review,
+        rating: +form.rating,
+      });
+    }
+  };
+
+  const handleReviewsChange = ({target}: ChangeEvent<HTMLTextAreaElement>) => {
+    setForm({
+      ...form,
+      review: target.value,
+    });
+  };
+
+  const handleRatingChange = ({target}: ChangeEvent<HTMLInputElement>) => {
+    setForm({
+      ...form,
+      rating: +target.value,
+    });
+  };
 
   useEffect(() => {
     if(isSuccess) {
@@ -42,6 +69,7 @@ function ReviewsForm(): JSX.Element {
       className="reviews__form form"
       action="#"
       method="post"
+      data-testid='reviews-form'
       onSubmit={handleSubmit}
     >
 

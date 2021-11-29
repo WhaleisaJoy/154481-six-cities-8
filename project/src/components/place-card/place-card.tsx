@@ -34,6 +34,10 @@ function PlaceCard({offer, currentCardType, onActivePlaceCardMouseEnter = () => 
     onActivePlaceCardMouseEnter(id);
   };
 
+  const handleMouseLeave = () => {
+    onActivePlaceCardMouseLeave();
+  };
+
   return (
     <article
       className={classNames(
@@ -45,7 +49,7 @@ function PlaceCard({offer, currentCardType, onActivePlaceCardMouseEnter = () => 
         },
       )}
       onMouseEnter={handleMouseEnter}
-      onMouseLeave={onActivePlaceCardMouseLeave}
+      onMouseLeave={handleMouseLeave}
     >
 
       {
@@ -75,6 +79,7 @@ function PlaceCard({offer, currentCardType, onActivePlaceCardMouseEnter = () => 
             height={previewSize[currentCardType].height}
             alt="Place image"
             id={id.toString()}
+            data-testid='place-card-image'
           />
         </Link>
       </div>
@@ -103,7 +108,7 @@ function PlaceCard({offer, currentCardType, onActivePlaceCardMouseEnter = () => 
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`/offer/${id}`}>{title}</Link>
+          <Link data-testid='place-card-link' to={`/offer/${id}`}>{title}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>
