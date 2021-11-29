@@ -5,11 +5,13 @@ import { Router } from 'react-router-dom';
 import { createAPI } from '../../services/api';
 import thunk, {ThunkDispatch} from 'redux-thunk';
 import { configureMockStore } from '@jedmao/redux-mock-store';
-// import userEvent from '@testing-library/user-event';
+import userEvent from '@testing-library/user-event';
 import { StateType } from '../../types/state';
 import { Action } from 'redux';
 import { Cities } from '../../database';
 import CitiesList from './cities-list';
+import * as Redux from 'react-redux';
+import { ActionType } from '../../types/action';
 
 const CURRENT_CITY = Cities.PARIS;
 
@@ -42,22 +44,30 @@ describe('Component: CitiesList', () => {
     expect(container.querySelectorAll('.locations__item').length).toEqual(Object.values(Cities).length);
   });
 
-  // it('should dispatch changeCity when user click tab', () => {
-  //   const onChooseCity = jest.fn();
-  //   const notCurrentCity = Cities.AMSTERDAM;
-  //   const { container } = render(
-  //     <Provider store={store}>
-  //       <Router history={history}>
-  //         <CitiesList city={CURRENT_CITY} />
-  //       </Router>
-  //     </Provider>,
-  //   );
+  it('should dispatch changeCity when user click tab', () => {
+    const notCurrentCity = Cities.AMSTERDAM;
 
-  //   const notCurrentCityLink = screen.getByRole('link');
+    const dispatch = jest.fn();
+    const useDispatch = jest.spyOn(Redux, 'useDispatch');
+    useDispatch.mockReturnValue(dispatch);
 
-  //   userEvent.click(notCurrentCityLink);
+    render(
+      <Provider store={store}>
+        <Router history={history}>
+          <CitiesList city={CURRENT_CITY} />
+        </Router>
+      </Provider>,
+    );
 
-  //   expect(screen.getByText(CURRENT_CITY).parentElement).toHaveClass('tabs__item--active');
-  //   expect(container.querySelectorAll('.locations__item').length).toEqual(Object.values(Cities).length);
-  // });
+    userEvent.click(screen.getByText(notCurrentCity));
+
+    expect(useDispatch).toBeCalledTimes(1);
+    expect(dispatch).nthCalledWith(
+      1,
+      {
+        type: ActionType.ChangeCity,
+        payload: notCurrentCity,
+      },
+    );
+  });
 });

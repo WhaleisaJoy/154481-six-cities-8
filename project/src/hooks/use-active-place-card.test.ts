@@ -3,21 +3,15 @@ import { useActivePlaceCard } from './use-active-place-card';
 
 describe('Hook: useActivePlaceCard', () => {
 
-  it('should return array with 3 elements', () => {
+  it('should return array with 3 elements where activePlaceCard is null', () => {
     const {result} = renderHook(() =>
       useActivePlaceCard(),
     );
 
-    // const activePlaceCardNull = null;
-    // const activePlaceCardNumber = 0;
-
-    const [, handleActivePlaceCardMouseEnter, handleActivePlaceCardMouseLeave] = result.current;
-
-    // eslint-disable-next-line no-console
-    // console.log(typeof activePlaceCard);
+    const [activePlaceCard, handleActivePlaceCardMouseEnter, handleActivePlaceCardMouseLeave] = result.current;
 
     expect(result.current).toHaveLength(3);
-    // expect(activePlaceCard).toBeInstanceOf(null);
+    expect(activePlaceCard).toBeNull();
     expect(handleActivePlaceCardMouseEnter).toBeInstanceOf(Function);
     expect(handleActivePlaceCardMouseLeave).toBeInstanceOf(Function);
   });

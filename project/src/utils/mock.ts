@@ -15,7 +15,7 @@ export const makeFakeOffer = (): OffersType => ({
     name: helpers.randomize(Object.values(Cities)),
   },
   description: lorem.sentences(),
-  goods: [''],
+  goods: [lorem.word(), lorem.word()],
   host: {
     avatarUrl: image.avatar(),
     id: datatype.number(),

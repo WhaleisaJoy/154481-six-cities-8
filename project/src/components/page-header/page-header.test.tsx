@@ -10,6 +10,9 @@ import { StateType } from '../../types/state';
 import { Action } from 'redux';
 import userEvent from '@testing-library/user-event';
 import { AuthorizationStatus } from '../../const';
+import { makeFakeUser } from '../../utils/mock';
+
+const fakeUser = makeFakeUser();
 
 const onFakeUnauthorized = jest.fn();
 const api = createAPI(onFakeUnauthorized());
@@ -41,19 +44,40 @@ describe('Component: PageHeader', () => {
     expect(screen.getByAltText(/6 cities logo/i)).toBeInTheDocument();
   });
 
-  // it('should render correctly when isNav is true', () => {
-  //   render(
-  //     <Provider store={store}>
-  //       <Router history={history}>
-  //         <PageHeader isNav />
-  //       </Router>
-  //     </Provider>,
-  //   );
+  it('should render correctly when isNav is true and AuthStatus is "NO_AUTH"', () => {
+    render(
+      <Provider store={store}>
+        <Router history={history}>
+          <PageHeader isNav />
+        </Router>
+      </Provider>,
+    );
 
-  //   expect(screen.getByRole('link')).toBeInTheDocument();
-  //   expect(screen.getByRole('link')).toHaveClass('header__logo-link');
-  //   expect(screen.getByAltText(/6 cities logo/i)).toBeInTheDocument();
-  // });
+    expect(screen.getAllByRole('link').some((link) => link.classList.contains('header__logo-link'))).toBe(true);
+    expect(screen.getByText(/Sign in/i)).toBeInTheDocument();
+    expect(screen.getByAltText(/6 cities logo/i)).toBeInTheDocument();
+  });
+
+  it('should render correctly when isNav is true and AuthStatus is "AUTH"', () => {
+    const storeAuth = mockStore({
+      USER: {
+        authorizationStatus: AuthorizationStatus.Auth,
+        currentUser: fakeUser,
+      },
+    });
+    render(
+      <Provider store={storeAuth}>
+        <Router history={history}>
+          <PageHeader isNav />
+        </Router>
+      </Provider>,
+    );
+
+    expect(screen.getAllByRole('link').some((link) => link.classList.contains('header__logo-link'))).toBe(true);
+    expect(screen.getByText(new RegExp(fakeUser.email, 'i'))).toBeInTheDocument();
+    expect(screen.getByText(/Sign out/i)).toBeInTheDocument();
+    expect(screen.getByAltText(/6 cities logo/i)).toBeInTheDocument();
+  });
 
   it('should redirect to root url when user clicked to link', () => {
     history.push('/fake');

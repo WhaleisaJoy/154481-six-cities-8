@@ -1,20 +1,19 @@
 import { createAPI } from '../services/api';
-import { makeFakeServerUser, makeFakeServerComment, makeFakeServerOffer, makeFakeAuthData } from '../utils/mock';
+import { makeFakeServerUser, makeFakeServerComment, makeFakeServerOffer, makeFakeAuthData, makeFakeDataComment } from '../utils/mock';
 import MockAdapter from 'axios-mock-adapter';
 import thunk, {ThunkDispatch} from 'redux-thunk';
 import {configureMockStore} from '@jedmao/redux-mock-store';
 import { StateType } from '../types/state';
 import { Action } from 'redux';
-import { APIRoute, AppRoute, AuthorizationStatus } from '../const';
-import { checkAuthAction, fetchCommentsAction, fetchCurrentOfferAction, fetchOfferAction, fetchOffersFavoritesAction, fetchOffersNearbyAction, loginAction, logoutAction } from './api-action';
-import { dropCurrentUser, loadComments, loadCurrentOffer, loadOffers, loadOffersFavorite, loadOffersNearby, redirectToRoute, requireAuthorization, requireLogout, saveCurrentUser } from './action';
+import { APIRoute, AppRoute, AuthorizationStatus, SendingCommentStatus } from '../const';
+import { checkAuthAction, fetchCommentsAction, fetchCurrentOfferAction, fetchOfferAction, fetchOffersNearbyAction, loginAction, logoutAction, postCommentAction } from './api-action';
+import { changeSendingCommentStatus, dropCurrentUser, loadComments, loadCurrentOffer, loadOffers, loadOffersNearby, redirectToRoute, requireAuthorization, requireLogout, saveCurrentUser } from './action';
 import { adaptCommentsToClient, adaptOffersToClient, adaptUserAuthDataToClient } from '../services/adapter';
 
 const mockServerOffers = [makeFakeServerOffer()];
 const mockServerOffer = makeFakeServerOffer();
 const mockServerComments = [makeFakeServerComment()];
-// const mockServerComment = makeFakeServerComment();
-// const mockDataComment = makeFakeDataComment();
+const mockDataComment = makeFakeDataComment();
 const mockServerUser = makeFakeServerUser();
 const mockAuthData = makeFakeAuthData();
 const ID = 1;
@@ -88,61 +87,19 @@ describe('Reducer: userReducer', () => {
     ]);
   });
 
-  // it('should dispatch loadComments and update SendingCommentStatus to "SUCCESS" when POST /comments/:id', async () => {
-  //   // const comment = mockDataComment.comment;
-  //   // const rating = mockDataComment.rating;
-  //   const mockServerComments2 = [makeFakeServerComment()];
-  //   mockAPI
-  //     .onPost(`${APIRoute.Comments}/${ID}`, mockDataComment)
-  //     .reply(200, mockServerComments2);
-
-  //   const store = mockStore();
-  //   await store.dispatch(postCommentAction(mockDataComment));
-
-
-  //   mockAPI
-  //     .onGet(`${APIRoute.Comments}/${ID}`)
-  //     .reply(200, mockServerComments2);
-
-  //   await store.dispatch(fetchCommentsAction(ID));
-
-  //   // await api.post(`${APIRoute.Comments}/${ID}`, {comment, rating});
-  //   // await store.dispatch(fetchCommentsAction(ID));
-
-  //   const adaptedData = mockServerComments2.map(adaptCommentsToClient);
-  //   expect(store.getActions()).toEqual([
-  //     changeSendingCommentStatus(SendingCommentStatus.Sending),
-  //     loadComments(adaptedData),
-  //     changeSendingCommentStatus(SendingCommentStatus.Fail),
-  //   ]);
-  // });
-
-  it('should dispatch loadOffersFavorite when GET /favorite', async () => {
-    mockAPI
-      .onGet(APIRoute.Favorite)
-      .reply(200, mockServerOffers);
-
+  it('should dispatch loadComments and update SendingCommentStatus to "SUCCESS" when POST /comments/:id', async () => {
     const store = mockStore();
-    await store.dispatch(fetchOffersFavoritesAction());
+    mockAPI
+      .onPost(`${APIRoute.Comments}/${mockDataComment.id}`)
+      .reply(200, mockServerComments);
 
-    const adaptedData = mockServerOffers.map(adaptOffersToClient);
+    await store.dispatch(postCommentAction(mockDataComment));
+
     expect(store.getActions()).toEqual([
-      loadOffersFavorite(adaptedData),
+      changeSendingCommentStatus(SendingCommentStatus.Sending),
+      loadComments(mockServerComments.map(adaptCommentsToClient)),
+      changeSendingCommentStatus(SendingCommentStatus.Success),
     ]);
-  });
-
-  it('should dispatch replaceOffer when POST /favorite/:id/:status', async () => {
-    // mockAPI
-    //   .onGet(APIRoute.Favorite)
-    //   .reply(200, mockServerOffers);
-
-    // const store = mockStore();
-    // await store.dispatch(fetchOffersFavoritesAction());
-
-    // const adaptedData = mockServerOffers.map(adaptOffersToClient);
-    // expect(store.getActions()).toEqual([
-    //   replaceOffer(adaptedData),
-    // ]);
   });
 
   it('should authorization status is «auth» when server return 200', async () => {
